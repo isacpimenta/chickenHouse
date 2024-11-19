@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></title>
+    <link rel="stylesheet" href="styles/output.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Passion+One:wght@400;700;900&family=Staatliches&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="w-full h-[420px] bg-zinc-900 bg-home bg-cover bg-center">
+        <div class="w-full h-full flex flex-col justify-center items-center pt-10">
+            <img src="./assets/logo.jpg" alt="Logo Casa Dos Frangos" class="w-32 h32 rounded-full shadow-lg hover:scale-110 duration-200">
+        
+            <h1 class="text-4xl mt-4 mb-2 font-bold text-white">CASA DOS FRANGOS</h1>
+        
+            <span class="text-white text-sm">[ Av. Dr. Manoel Teles, 102 - Centro, Duque de Caxias - RJ ] <br> [ Praça do Pacificador, 53 - Centro, Duque de Caxias - RJ ]</BR></span>
+            
+            <div class="bg-green-600 px-4 py-1 rounded-lg mt-5" id="date-span">
+                <span class="text-white font-medium">SEG á DOM - 18hrs as 22hrs</span>
+            </div>
+
+            <nav class="mt-10 flex justify-around w-full bg-black/60 min-h-[60px] items-center">
+                <a href="" class="flex items-center bg-white px-1 py-1 rounded"><i class="fa fa-house text-black mr-2"></i><p class="text-black flex justify-center items-center">Home</p></a>
+                <a href="" class="flex"><i class="fa-solid fa-percent text-white mr-2"></i><p class="text-white">Promo</p></a>
+                <a href="" class="flex"><i class="fa-solid fa-sack-dollar text-white mr-2"></i><p class="text-white">Pedidos</p></a>
+                <a href="" class="flex"><i class="fa-solid fa-user text-white mr-2"></i><p class="text-white">Minha Conta</p></a>
+            </nav>  
+        </div>
+    </header>
+
+    <h2 class="text-2xl md:text-3xl font-bold text-center mt-9 mb-6">
+        Conheça o nosso cardápio
+    </h2>
+
+    <div id="menu">
+
+        <main class="grid grid-cols-1 md:grid-cols-2 gap-7 md:gap-10 mx-auto max-w-7xl px-2 mb-16">
+            <!-- ITEM -->
+            <div class="flex gap-2">
+                <img src="./assets/prato1.jpg" alt="Frango ao Molho Picante" class="w-28 h-28 rounded-md hover:scale-110 hover:-rotate-2 duration-300">
+                
+                <div>
+                    <p class="font-bold">Frango ao Molho Picante</p>
+                    <p class="text-sm">Lorem Itaque aperiam beatae quempore, explicabo quia nihil, dolorem vel necessitatibus saepe!</p>
+                    
+                    <div class="flex items-center gap-2 justify-between mt-3">
+                        
+                        <p class="font-bold text-lg">R$32,90</p>
+                        
+                        <button class="bg-gray-900 px-5 rounded add-to-cart-btn flex" data-name="Frango ao Molho Picante" data-price="32.90">
+                            <i class="fa fa-cart-plus text-lg text-white py-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- FIM ITEM -->
+
+            <!-- ITEM -->
+            <div class="flex gap-2">
+                <img src="./assets/prato2.jpg" alt="Peito de Frango Grelhado com Legumes" class="w-28 h-28 rounded-md hover:scale-110 hover:-rotate-2 duration-300">
+                
+                <div>
+                    <p class="font-bold">Peito de Frango Grelhado com Legumes</p>
+                    <p class="text-sm">Lorem Itaque apere, explicabo quia nihil, dolorem vel necessitatibus saepe!</p>
+                    
+                    <div class="flex items-center gap-2 justify-between mt-3">
+                        
+                        <p class="font-bold text-lg">R$25,00</p>
+                        
+                        <button class="bg-gray-900 px-5 rounded add-to-cart-btn flex" data-name="Peito de Frango Grelhado com Legumes" data-price="25.00">
+                            <i class="fa fa-cart-plus text-lg text-white py-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- FIM ITEM -->
+
+            <!-- ITEM -->
+            <div class="flex gap-2">
+                <img src="./assets/prato4.jpg" alt="Frango Assado com Alecrim" class="w-28 h-28 rounded-md hover:scale-110 hover:-rotate-2 duration-300">
+                
+                <div>
+                    <p class="font-bold">Frango Assado com Alecrim</p>
+                    <p class="text-sm">Lorem Itaque ape quaerat tempore, explicabo quia nihil, dolorem vel necessitatibus saepe!</p>
+                    
+                    <div class="flex items-center gap-2 justify-between mt-3">
+                        
+                        <p class="font-bold text-lg">R$30,00</p>
+                        
+                        <button class="bg-gray-900 px-5 rounded add-to-cart-btn flex" data-name="Frango Assado com Alecrim" data-price="30.00">
+                            <i class="fa fa-cart-plus text-lg text-white py-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- FIM ITEM -->
+
+            <!-- ITEM -->
+            <div class="flex gap-2">
+                <img src="./assets/prato5.jpg" alt="Frango à Passarinho + Acompanhamento" class="w-28 h-28 rounded-md hover:scale-110 hover:-rotate-2 duration-300">
+                
+                <div>
+                    <p class="font-bold">Frango à Passarinho + Acompanhamento</p>
+                    <p class="text-sm">Lorem Itaque ape quaerat tempore, explicabo quia nihil, dolorem vel necessitatibus saepe!</p>
+                    
+                    <div class="flex items-center gap-2 justify-between mt-3">
+                        
+                        <p class="font-bold text-lg">R$36,90</p>
+                        
+                        <button class="bg-gray-900 px-5 rounded add-to-cart-btn flex" data-name="Frango à Passarinho + Acompanhamento" data-price="36.90">
+                            <i class="fa fa-cart-plus text-lg text-white py-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- FIM ITEM -->
+
+            <!-- ITEM -->
+            <div class="flex gap-2">
+                <img src="./assets/prato6.jpg" alt="Frango com Batatas e Salada" class="w-28 h-28 rounded-md hover:scale-110 hover:-rotate-2 duration-300">
+                
+                <div>
+                    <p class="font-bold">Frango com Batatas e Salada</p>
+                    <p class="text-sm">Lorem Itaque ape quaerat tempore, explicabo quia nihil, dolorem vel necessitatibus saepe!</p>
+                    
+                    <div class="flex items-center gap-2 justify-between mt-3">
+                        
+                        <p class="font-bold text-lg">R$38,90</p>
+                        
+                        <button class="bg-gray-900 px-5 rounded add-to-cart-btn flex" data-name="Frango com Batatas e Salada" data-price="38.90">
+                            <i class="fa fa-cart-plus text-lg text-white py-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- FIM ITEM -->
+
+            <!-- ITEM -->
+            <div class="flex gap-2">
+                <img src="./assets/prato7.jpg" alt="Frango Assado + Arroz e Salada Verde" class="w-28 h-28 rounded-md hover:scale-110 hover:-rotate-2 duration-300">
+                
+                <div>
+                    <p class="font-bold">Frango Assado + Arroz e Salada Verde</p>
+                    <p class="text-sm">Lorem Itaque ape quaerat tempore, explicabo quia nihil, dolorem vel necessitatibus saepe!</p>
+                    
+                    <div class="flex items-center gap-2 justify-between mt-3">
+                        
+                        <p class="font-bold text-lg">R$34,90</p>
+                        
+                        <button class="bg-gray-900 px-5 rounded add-to-cart-btn flex" data-name="Frango Assado + Arroz e Salada Verde" data-price="34.90">
+                            <i class="fa fa-cart-plus text-lg text-white py-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- FIM ITEM -->
+
+            <!-- ITEM -->
+            <div class="flex gap-2">
+                <img src="./assets/prato8.jpg" alt="Frango à Parmegiana com Espaguete" class="w-28 h-28 rounded-md hover:scale-110 hover:-rotate-2 duration-300">
+                
+                <div>
+                    <p class="font-bold">Frango à Parmegiana com Espaguete</p>
+                    <p class="text-sm">Lorem Itaque ape quaerat tempore, explicabo quia nihil, dolorem vel necessitatibus saepe!</p>
+                    
+                    <div class="flex items-center gap-2 justify-between mt-3">
+                        
+                        <p class="font-bold text-lg">R$39,90</p>
+                        
+                        <button class="bg-gray-900 px-5 rounded add-to-cart-btn flex" data-name="Frango à Parmegiana com Espaguete" data-price="39.90">
+                            <i class="fa fa-cart-plus text-lg text-white py-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- FIM ITEM -->
+
+            <!-- ITEM -->
+            <div class="flex gap-2">
+                <img src="./assets/prato9.jpg" alt="Frango Assado com Farofa" class="w-28 h-28 rounded-md hover:scale-110 hover:-rotate-2 duration-300">
+                
+                <div>
+                    <p class="font-bold">Frango Assado com Farofa</p>
+                    <p class="text-sm">Lorem Itaque ape quaerat tempore, explicabo quia nihil, dolorem vel necessitatibus saepe!</p>
+                    
+                    <div class="flex items-center gap-2 justify-between mt-3">
+                        
+                        <p class="font-bold text-lg">R$29,90</p>
+                        
+                        <button class="bg-gray-900 px-5 rounded add-to-cart-btn flex" data-name="Frango Assado com Farofa" data-price="29.90">
+                            <i class="fa fa-cart-plus text-lg text-white py-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- FIM ITEM -->
+        </main>
+
+        <div class="mx-auto max-w-7xl px-2 my-2">
+            <h2 class="font-bold text-3xl">Bebidas</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-7 md:gap-10 mx-auto max-w-7xl px-2 mb-16" id="menu">
+            
+            <!-- BEBIDA ITEM -->
+            <div class="flex gap-2 w-full">
+                <img src="./assets/refri-1.png" alt="Coca-Lata" class="w-28 h-28 rounded-md hover:scale-110 hover:-rotate-2 duration-300">
+                
+                <div class="w-full">
+                    <p class="font-bold">Coca Lata</p>
+                    <p class="text-sm">Lorem Itaque aperiam beatae qulo aliquid accusamus, recusandae quaerat tempore, explicabo quia nihil, dolorem vel necessitatibus saepe!</p>
+                    
+                    <div class="flex items-center gap-2 justify-between mt-3">
+                        
+                        <p class="font-bold text-lg">R$6,00</p>
+                        
+                        <button class="bg-gray-900 px-5 rounded add-to-cart-btn flex" data-name="Coca Lata" data-price="6.00">
+                            <i class="fa fa-cart-plus text-lg text-white py-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- FIM ITEM -->
+
+            <!-- BEBIDA ITEM -->
+            <div class="flex gap-2 w-full">
+                <img src="./assets/refri-2.png" alt="Guaraná-Lata" class="w-28 h-28 rounded-md hover:scale-110 hover:-rotate-2 duration-300">
+                
+                <div class="w-full">
+                    <p class="font-bold">Guaraná Lata</p>
+                    <p class="text-sm">Lorem Itaque aperiam beatae qulo aliquid accusamus, recusandae quaerat tempore, explicabo quia nihil, dolorem vel necessitatibus saepe!</p>
+                    
+                    <div class="flex items-center gap-2 justify-between mt-3">
+                        
+                        <p class="font-bold text-lg">R$6,00</p>
+                        
+                        <button class="bg-gray-900 px-5 rounded add-to-cart-btn flex" data-name="Guaraná-Lata" data-price="6.00">
+                            <i class="fa fa-cart-plus text-lg text-white py-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- FIM ITEM -->
+
+            <!-- BEBIDA ITEM -->
+            <div class="flex gap-2 w-full">
+                <img src="./assets/refri-3.png" alt="Coca 1.5L" class="w-28 h-28 rounded-md hover:scale-110 hover:-rotate-2 duration-300">
+                
+                <div class="w-full">
+                    <p class="font-bold">Coca 1.5L</p>
+                    <p class="text-sm">Lorem Itaque aperiam beatae qulo aliquid accusamus, recusandae quaerat tempore, explicabo quia nihil, dolorem vel necessitatibus saepe!</p>
+                    
+                    <div class="flex items-center gap-2 justify-between mt-3">
+                        
+                        <p class="font-bold text-lg">R$12,00</p>
+                        
+                        <button class="bg-gray-900 px-5 rounded add-to-cart-btn flex" data-name="Coca 1.5L" data-price="12.00">
+                            <i class="fa fa-cart-plus text-lg text-white py-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- FIM ITEM -->
+
+            <!-- BEBIDA ITEM -->
+            <div class="flex gap-2 w-full">
+                <img src="./assets/refri-4.png" alt="Coca KS" class="w-28 h-28 rounded-md hover:scale-110 hover:-rotate-2 duration-300">
+                
+                <div class="w-full">
+                    <p class="font-bold">Coca KS</p>
+                    <p class="text-sm">Lorem Itaque aperiam beatae qulo aliquid accusamus, recusandae quaerat tempore, explicabo quia nihil, dolorem vel necessitatibus saepe!</p>
+                    
+                    <div class="flex items-center gap-2 justify-between mt-3">
+                        
+                        <p class="font-bold text-lg">R$8,00</p>
+                        
+                        <button class="bg-gray-900 px-5 rounded add-to-cart-btn flex" data-name="Coca KS" data-price="8.00">
+                            <i class="fa fa-cart-plus text-lg text-white py-1"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- FIM ITEM -->
+
+        </div>
+    </div>
+
+    <div id="cart-modal" class="bg-black/60 w-full h-full fixed top-0 left-0 z-[99] items-center justify-center hidden">
+        <div class="bg-white p-5 rounded-md w-full sm:max-w-[90%] md:max-w-[600px] sm:px-4 m-4">
+            <h2 class="text-center font-bold text-2xl mb-2">Meu Carrinho</h2>
+    
+            <div id="cart-items" class="flex justify-between mb-2 flex-col">
+                <!-- Aqui os itens do carrinho serão inseridos via JS -->
+            </div>
+    
+            <p>Total: <span id="cart-total" class="font-bold">0.00</span></p>
+    
+            <p class="font-bold mt-4">Escolha o tipo de entrega</p>
+            <div class="flex justify-around mt-2 items-center">
+                <label class="flex items-center border-2 px-2 min-h-14 w-[50%] border-black/60 border-collapse">
+                    <input type="radio" name="delivery-type" value="delivery" id="delivery-option" class="mr-2">
+                    <span>Entrega</span>
+                </label>
+                <label class="flex items-center border-2 px-2 min-h-14 w-[50%] border-black/60 border-collapse">
+                    <input type="radio" name="delivery-type" value="pickup" id="pickup-option" class="mr-2">
+                    <span>Retirar no Restaurante</span>
+                </label>
+            </div>
+    
+            <div id="delivery-address-section" class="mt-4 hidden">
+                <p class="font-bold">Endereço de Entrega</p>
+                <input type="text" placeholder="DIGITE SEU ENDEREÇO COMPLETO..." id="address" class="w-full border-2 p-1 rounded my-1">
+                <p class="text-red-500 hidden" id="address-warn">Digite seu endereço completo!</p>
+            </div>
+    
+            <div id="pickup-address-section" class="mt-5 hidden">
+                <p class="font-bold">Retirada no Restaurante</p>
+                <p>Você escolheu retirar seu pedido diretamente no restaurante. Selecione a sede onde deseja retirar:</p>
+    
+                <!-- Dropdown para escolher a sede -->
+                <select id="pickup-location" class="w-full border-2 p-1 rounded my-1">
+                    <option value="" disabled selected>Selecione uma sede</option>
+                    <option value="sede-1">
+                        [ Av. Dr. Manoel Teles, 102 - Centro, Duque de Caxias - RJ ]
+                    </option>
+                    <option value="sede-2">
+                        [ Praça do Pacificador, 53 - Centro, Duque de Caxias - RJ ]
+                    </option>
+                </select>
+    
+                <p class="text-red-500 hidden" id="pickup-location-warn">Por favor, selecione uma sede para retirada.</p>
+            </div>
+    
+            <div class="flex items-center justify-between mt-4 w-full">
+                <button id="close-modal-btn">Fechar</button>
+                <button id="checkout-btn" class="bg-green-500 text-white px-4 py-1 rounded">Finalizar Pedido</button>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+
+    <footer class="w-full bg-red-500 py-3 fixed bottom-0 z-40 flex items-center justify-center">
+        <button class="flex items-center gap-2 text-white font-bold" id="cart-btn">
+            (<span id="cart-count">0</span>)
+            Veja meu carrinho
+            <i class="fa fa-cart-plus text-lg text-white"></i>
+        </button>
+    </footer>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
