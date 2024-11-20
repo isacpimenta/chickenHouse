@@ -1,19 +1,17 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{html,js}", // Inclui arquivos HTML e JS na pasta src e subpastas
-    "./index.html"   // Inclui seu arquivo HTML principal
+    "./**/*.{html,js,ejs}",
+    "./public/**/*.html",
+    "./src/index.js",
+    '!./node_modules/**/*',
   ],
   theme: {
     fontFamily:{
-      'sans': ['Josefin Sans', 'sans-serif'],
-      'links': ['Staatliches', 'serif']
+      'sans': ['Oswald', 'sans-serif'],
     },
-    extend: {
-      backgroundImage: {
-        "home": "url('/assets/bg.png')"
-      }
-    },
+    extend: {},
   },
   plugins: [],
-};
+}
+
