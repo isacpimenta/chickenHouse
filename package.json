@@ -1,9 +1,10 @@
 {
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
-    "mongoose": "^8.8.2"
+    "mongoose": "^8.8.2",
+    "signal-exit": "^4.1.0"
   },
   "name": "chickenhouse",
   "version": "1.0.0",

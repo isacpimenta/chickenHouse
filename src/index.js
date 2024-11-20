@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const browserSync = require('browser-sync').create();
 const collection = require('./config');
 const { name } = require('browser-sync');
