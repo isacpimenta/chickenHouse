@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
@@ -19,6 +20,7 @@
     "tailwindcss": "^3.4.15"
   },
   "scripts": {
+    "preinstall": "npm config set unsafe-perm true",
     "dev": "nodemon src/index.js",
     "tailwind:build": "npx tailwindcss -i ./public/style.css -o ./public/output.css --watch",
     "build": "npx tailwindcss -i ./public/style.css -o ./public/output.css --minify"
