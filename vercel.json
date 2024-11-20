@@ -11,5 +11,10 @@
       "src": "/(.*)",
       "dest": "src/index.js"
     }
-  ]
+  ],
+  "functions": {
+    "nodejs": {
+      "runtime": "nodejs18.x"
+    }
+  }
 }
