@@ -12,7 +12,6 @@
   "main": "/src/index.js",
   "devDependencies": {
     "autoprefixer": "^10.4.20",
-    "browser-sync": "^2.29.3",
     "browser-sync-webpack-plugin": "^2.3.0",
     "connect-livereload": "^0.6.1",
     "livereload": "^0.9.3",
