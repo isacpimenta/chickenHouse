@@ -1,9 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bcrypt = require('bcryptjs');
-const browserSync = require('browser-sync').create();
 const collection = require('./config');
-const { name } = require('browser-sync');
 
 const app = express();
 
@@ -11,16 +9,6 @@ const app = express();
 app.use(express.json());
 
 app.use(express.urlencoded({extended: false}));
-
-
-// Configurar o BrowserSync
-browserSync.init({
-  proxy: "http://localhost:3000", // Seu servidor Express
-  files: ["public/**/*.*", "views/**/*.*"], // Arquivos que o BrowserSync vai monitorar
-  port: 3001, // Escolha uma porta para o BrowserSync (não a mesma do Express)
-  open: false, // Impede que o navegador abra automaticamente
-  notify: false, // Desativa as notificações do BrowserSync
-});
 
 // Configuração do EJS
 app.set('view engine', 'ejs');

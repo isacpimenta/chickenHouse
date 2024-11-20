@@ -2,7 +2,6 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
-    "browser-sync": "^3.0.3",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "mongoose": "^8.8.2",
@@ -13,7 +12,6 @@
   "main": "/src/index.js",
   "devDependencies": {
     "autoprefixer": "^10.4.20",
-    "browser-sync-webpack-plugin": "^2.3.0",
     "connect-livereload": "^0.6.1",
     "livereload": "^0.9.3",
     "postcss": "^8.4.49",
