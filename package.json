@@ -20,7 +20,7 @@
     "tailwindcss": "^3.4.15"
   },
   "scripts": {
-    "dev": "nodemon src/index.js",
+    "dev": "node src/index.js",
     "tailwind:build": "npx tailwindcss -i ./public/style.css -o ./public/output.css --watch",
     "build": "npx tailwindcss -i ./public/style.css -o ./public/output.css --minify"
   },
