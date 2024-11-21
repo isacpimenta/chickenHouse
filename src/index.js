@@ -30,14 +30,9 @@ if (process.env.NODE_ENV === 'development') {
     port: 3001,
     open: false,
     notify: false,
+    serveStatic: ['public'],
   });
 }
-
-// Forçando o content-Type correto
-// app.get('/output.css', (req, res) => {
-//   res.setHeader('Content-Type', 'text/css');
-//   res.sendFile(path.join(__dirname, 'public/output.css'));
-// });
 
 // Rotas
 app.get('/', (req, res) => {
