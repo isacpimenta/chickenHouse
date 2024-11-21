@@ -16,7 +16,6 @@ app.use((req, res, next) => {
   next();
 });
 
-
 // Configuração para dados JSON e URL-encoded
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -27,20 +26,6 @@ app.set('views', path.join(__dirname, 'views')); // Definir corretamente o diret
 
 // Servir arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Configurar BrowserSync somente em desenvolvimento
-if (process.env.NODE_ENV === 'development') {
-  const browserSync = require('browser-sync').create();
-
-  browserSync.init({
-    proxy: 'http://localhost:3000',
-    files: ['public/**/*.*', 'views/**/*.*'],
-    port: 3001,
-    open: false,
-    notify: false,
-    serveStatic: ['public'],
-  });
-}
 
 // Rotas
 app.get('/', (req, res) => {
