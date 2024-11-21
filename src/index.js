@@ -12,6 +12,18 @@ app.use(express.json());
 
 app.use(express.urlencoded({extended: false}));
 
+if (process.env.NODE_ENV === "development") {
+  const browserSync = require("browser-sync").create();
+
+  browserSync.init({
+      server: "./dist", // ou o diretório de saída do seu build
+      port: 4000,
+      ui: {
+          port: 4001,
+      },
+  });
+}
+
 
 // Configurar o BrowserSync
 browserSync.init({

@@ -19,9 +19,9 @@
     "tailwindcss": "^3.4.15"
   },
   "scripts": {
-    "dev": "node src/index.js",
+    "dev": "NODE_ENV=development node src/index.js",
     "tailwind:build": "npx tailwindcss -i ./public/style.css -o ./public/output.css --watch",
-    "build": "npx tailwindcss -i ./public/style.css -o ./public/output.css --minify"
+    "build": "NODE_ENV=production webpack npx tailwindcss -i ./public/style.css -o ./public/output.css --minify"
   },
   "keywords": [],
   "author": "",
