@@ -53,6 +53,10 @@ app.get('/home', (req, res) => {
   res.render('home');
 });
 
+app.get('/output', (req, res) => {
+  res.render('output');
+});
+
 // Cadastro de usuário
 app.post('/signup', async (req, res) => {
   const data = {
