@@ -35,10 +35,10 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Forçando o content-Type correto
-app.get('/output.css', (req, res) => {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(path.join(__dirname, 'public/output.css'));
-});
+// app.get('/output.css', (req, res) => {
+//   res.setHeader('Content-Type', 'text/css');
+//   res.sendFile(path.join(__dirname, 'public/output.css'));
+// });
 
 // Rotas
 app.get('/', (req, res) => {
