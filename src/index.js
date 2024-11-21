@@ -9,6 +9,14 @@ dotenv.config();
 
 const app = express();
 
+app.use((req, res, next) => {
+  if (req.path === '/output.css') {
+    res.setHeader('Content-Type', 'text/css');
+  }
+  next();
+});
+
+
 // Configuração para dados JSON e URL-encoded
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
