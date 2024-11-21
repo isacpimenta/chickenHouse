@@ -30,7 +30,6 @@ if (process.env.NODE_ENV === 'development') {
     port: 3001,
     open: false,
     notify: false,
-    serveStatic: ['public'],
   });
 }
 
