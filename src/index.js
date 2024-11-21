@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
-const collection = require('./config');
+const collection = require('./config'); // Certifique-se de que esse arquivo de configuração está correto
 
 // Carregar variáveis de ambiente do arquivo .env
 dotenv.config();
@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Configuração do EJS como motor de visualização
 app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views')); // Definir corretamente o diretório de views
 
 // Servir arquivos estáticos
 app.use(express.static(path.join(__dirname, 'public')));
@@ -29,10 +30,9 @@ if (process.env.NODE_ENV === 'development') {
     port: 3001,
     open: false,
     notify: false,
-    serveStatic: ['public'],  // Serve os arquivos estáticos da pasta public
+    serveStatic: ['public'],
   });
 }
-
 
 // Rotas
 app.get('/', (req, res) => {
@@ -67,7 +67,7 @@ app.post('/signup', async (req, res) => {
     data.password = await bcrypt.hash(data.password, saltRounds);
 
     // Inserir dados no banco de dados
-    await collection.insertMany(data);
+    await collection.insertOne(data); // Corrigido para insertOne
     res.send('Cadastro realizado com sucesso!');
   } catch (error) {
     console.error('Erro no cadastro:', error);
