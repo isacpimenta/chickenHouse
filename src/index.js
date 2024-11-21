@@ -15,21 +15,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Configuração para servir arquivos estáticos
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Middleware para verificar a existência do arquivo CSS (opcional, já que serve arquivos estáticos)
-app.use('/output.css', (req, res, next) => {
-  const filePath = path.join(__dirname, 'public', 'output.css');
-  if (!fs.existsSync(filePath)) {
-    console.error(`Arquivo CSS não encontrado: ${filePath}`);
-    return res.status(404).send('Arquivo CSS não encontrado.');
-  }
-  next();
-});
+app.use(express.static(path.join(__dirname, '../public')));
 
 // Configuração do EJS como motor de visualização
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../views')); // Corrigido para apontar para src/views
+app.set('views', path.join(__dirname, '../views'));
 
 // Configurar BrowserSync somente em desenvolvimento
 if (process.env.NODE_ENV === 'development') {
@@ -37,7 +27,7 @@ if (process.env.NODE_ENV === 'development') {
 
   browserSync.init({
     proxy: `http://localhost:${process.env.PORT || 3000}`,
-    files: ['public/**/*.*', '../views/**/*.*'], // Corrigido o caminho para src/views
+    files: ['public/**/*.*', '../views/**/*.*'],
     port: 3001,
     open: false,
     notify: false,
