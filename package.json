@@ -4,7 +4,9 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "dev": "npx tailwindcss -i ./public/style.css -o ./public/output.css --watch"
+    "start": "node src/index.js",
+    "tailwind:build": "npx tailwindcss -i ./public/style.css -o ./public/output.css --watch",
+    "build:css": "cross-env NODE_ENV=production npx tailwindcss -i ./public/style.css -o ./public/output.css --minify"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -28,3 +30,4 @@
   "author": "",
   "license": "ISC"
 }
+
