@@ -13,6 +13,7 @@
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
+    "fs": "^0.0.1-security",
     "mongoose": "^8.8.2",
     "signal-exit": "^4.1.0"
   },
@@ -30,4 +31,3 @@
   "author": "",
   "license": "ISC"
 }
-

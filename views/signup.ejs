@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-    <link rel="stylesheet" href="/css/output.css">
+    <title>SignUp</title>
+    <link rel="stylesheet" href="/output.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,8 +12,8 @@
 </head>
 <body class="flex h-[100vh] items-center justify-center">
     <div class=" min-w-[25rem] border-black form-container border-2 border-black/60 px-4 py-4 flex items-center flex-col">
-        <h2 class="text-3xl font-bold mb-5">Login</h2>
-        <form class="w-full flex flex-col items-center" action="/login" method="post">
+        <h2 class="text-3xl font-bold mb-5">SignUp</h2>
+        <form class="w-full flex flex-col items-center" action="/signup" method="post">
             <div class="w-full form-group">
                 <input class="w-full border-2 px-2 py-2 border-black/60 mb-5" type="text" id="name" name="username" placeholder="Enter your name" required autocomplete="off">
             </div>
@@ -22,9 +22,8 @@
                 <input class="w-full border-2 px-2 py-2 border-black/60" type="password" name="password" id="password" placeholder="Password" required>
             </div>
 
-            <button type="submit" class="mt-5 mb-3 px-7 py-2 text-white rounded submit-btn bg-green-600">LOGIN</button>
+            <button type="submit" class="mt-5 mb-3 px-7 py-2 text-white rounded submit-btn bg-green-600">SIGNUP</button>
         </form>
-        <p>Don't have an accont? <a class="text-blue-600 decoration-solid" href="/signup">Signup</a></p>
     </div>
 </body>
 </html>
