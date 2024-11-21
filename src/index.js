@@ -1,110 +1,106 @@
 const express = require('express');
 const path = require('path');
 const bcrypt = require('bcryptjs');
-const browserSync = require('browser-sync').create();
+const dotenv = require('dotenv');
 const collection = require('./config');
-const { name } = require('browser-sync');
+
+// Carregar variáveis de ambiente do arquivo .env
+dotenv.config();
 
 const app = express();
 
-// convert data into json format
+// Configuração para dados JSON e URL-encoded
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-app.use(express.urlencoded({extended: false}));
+// Configuração do EJS como motor de visualização
+app.set('view engine', 'ejs');
 
-if (process.env.NODE_ENV === "development") {
-  const browserSync = require("browser-sync").create();
+// Servir arquivos estáticos
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Configurar BrowserSync somente em desenvolvimento
+if (process.env.NODE_ENV === 'development') {
+  const browserSync = require('browser-sync').create();
 
   browserSync.init({
-      server: "./dist", // ou o diretório de saída do seu build
-      port: 4000,
-      ui: {
-          port: 4001,
-      },
+    proxy: 'http://localhost:3000',
+    files: ['public/**/*.*', 'views/**/*.*'],
+    port: 3001,
+    open: false,
+    notify: false,
+    serveStatic: ['public'],  // Serve os arquivos estáticos da pasta public
   });
 }
 
 
-// Configurar o BrowserSync
-browserSync.init({
-  proxy: "http://localhost:3000", // Seu servidor Express
-  files: ["public/**/*.*", "views/**/*.*"], // Arquivos que o BrowserSync vai monitorar
-  port: 3001, // Escolha uma porta para o BrowserSync (não a mesma do Express)
-  open: false, // Impede que o navegador abra automaticamente
-  notify: false, // Desativa as notificações do BrowserSync
+// Rotas
+app.get('/', (req, res) => {
+  res.render('login');
 });
 
-// Configuração do EJS
-app.set('view engine', 'ejs');
-
-// Rota para login
-app.get("/", (req, res) => {
-  res.render("login");
+app.get('/signup', (req, res) => {
+  res.render('signup');
 });
 
-// Rota para signup
-app.get("/signup", (req, res) => {
-  res.render("signup");
+app.get('/home', (req, res) => {
+  res.render('home');
 });
 
-// Rota para home
-app.get("/home", (req, res) => {
-  res.render("home");
-});
-
-// Servir arquivos estáticos
-app.use(express.static(path.join(__dirname, '../public')));
-
-// Register user
-app.post("/signup", async (req,res) => {
+// Cadastro de usuário
+app.post('/signup', async (req, res) => {
   const data = {
     name: req.body.username,
-    password: req.body.password
-  }
+    password: req.body.password,
+  };
 
-  // Check if the user already exist in database
-  const existingUser = await collection.findOne({name: data.name});
+  try {
+    // Verificar se o usuário já existe
+    const existingUser = await collection.findOne({ name: data.name });
 
-  if(existingUser){
-    res.send("Esse usuário já existe. Por favor, use outro nome")
-  }
-  else {
-    // hash the password using bcrypt
+    if (existingUser) {
+      return res.send('Esse usuário já existe. Por favor, use outro nome.');
+    }
+
+    // Criptografar a senha
     const saltRounds = 10;
-    const hashedPassword = await bcrypt.hash(data.password, saltRounds);
-    
-    data.password = hashedPassword;
+    data.password = await bcrypt.hash(data.password, saltRounds);
 
-    const userdata = await collection.insertMany(data);
-    console.log(userdata);
+    // Inserir dados no banco de dados
+    await collection.insertMany(data);
+    res.send('Cadastro realizado com sucesso!');
+  } catch (error) {
+    console.error('Erro no cadastro:', error);
+    res.status(500).send('Erro ao cadastrar o usuário.');
   }
-
 });
 
-// Login user
-app.post("/login", async (req, res) => {
+// Login de usuário
+app.post('/login', async (req, res) => {
   try {
     // Verificar nome de usuário
-    const checkUsername = await collection.findOne({ name: req.body.username });
-    if (!checkUsername) {
-      return res.send("Nome de usuário não encontrado!");
+    const user = await collection.findOne({ name: req.body.username });
+
+    if (!user) {
+      return res.send('Nome de usuário não encontrado!');
     }
 
     // Verificar senha
-    const checkPassword = await bcrypt.compare(req.body.password, checkUsername.password);
-    if (checkPassword) {
-      return res.render("home");
+    const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
+
+    if (isPasswordValid) {
+      res.render('home');
     } else {
-      return res.send("Senha inválida!");
+      res.send('Senha inválida!');
     }
   } catch (error) {
-    console.error("Erro no login:", error); // Log útil para depuração
-    return res.send("Credenciais inválidas!");
+    console.error('Erro no login:', error);
+    res.status(500).send('Erro ao realizar login.');
   }
 });
 
-
-const port = 3000;
+// Iniciar servidor
+const port = process.env.PORT || 3000; // Porta configurável via variável de ambiente
 app.listen(port, () => {
   console.log(`Servidor rodando em http://localhost:${port}`);
 });
