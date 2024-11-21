@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node src/index.js",
     "tailwind:build": "npx tailwindcss -i ./public/style.css -o ./public/output.css --watch",
-    "build:css": "cross-env NODE_ENV=production npx tailwindcss -i ./public/style.css -o ./public/output.css --minify"
+    "build:css": "cross-env NODE_ENV=production npx tailwindcss -i ./public/style.css -o ./public/output.css --minify",
+    "start:sync": "browser-sync start --server 'public' --files 'public/*.html, public/*.css'",
+    "dev": "concurrently \"npm run tailwind:build\" \"npm run start:sync\""
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -19,8 +21,8 @@
   "devDependencies": {
     "autoprefixer": "^10.4.20",
     "browser-sync": "^2.29.3",
-    "browser-sync-webpack-plugin": "^2.3.0",
     "connect-livereload": "^0.6.1",
+    "concurrently": "^8.2.0",
     "cross-env": "^7.0.3",
     "livereload": "^0.9.3",
     "postcss": "^8.4.49",
@@ -30,4 +32,3 @@
   "author": "",
   "license": "ISC"
 }
-
