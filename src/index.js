@@ -77,7 +77,7 @@ app.post('/signup', async (req, res) => {
     data.password = await bcrypt.hash(data.password, saltRounds);
 
     // Inserir dados no banco de dados
-    await collection.insertOne(data); // Corrigido para insertOne
+    await collection.insertMany(data);
     res.send('Cadastro realizado com sucesso!');
   } catch (error) {
     console.error('Erro no cadastro:', error);
