@@ -53,12 +53,6 @@ app.get('/home', (req, res) => {
   res.render('home');
 });
 
-app.get('/output.css', (req, res) => {
-  res.setHeader('Content-Type', 'text/css');
-  res.sendFile(path.join(__dirname, 'public/output.css'));
-});
-
-
 // Cadastro de usuário
 app.post('/signup', async (req, res) => {
   const data = {
