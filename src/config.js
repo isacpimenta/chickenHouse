@@ -17,13 +17,21 @@ const LoginSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: false // Não obrigatório no início, o usuário pode adicionar depois
+    required: false
   },
   phone: {
     type: String,
     required: false
   },
   cep: {
+    type: String,
+    required: false
+  },
+  addressNumber: { 
+    type: String,
+    required: false
+  },
+  referencePoint: { 
     type: String,
     required: false
   },
@@ -34,7 +42,11 @@ const LoginSchema = new mongoose.Schema({
   gender: {
     type: String,
     required: false,
-    enum: ["Masculino", "Feminino", "Outro"] // Aceita apenas essas opções
+    enum: ["Masculino", "Feminino", "Outro"]
+  },
+  isAdmin: { // Campo para identificar se o usuário é admin
+    type: Boolean,
+    default: false
   }
 });
 
