@@ -4,48 +4,91 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Minha Conta</title>
-  <link rel="stylesheet" href="/assets/style.css"> <!-- Inclua seu CSS -->
+  <link rel="stylesheet" href="/output.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Passion+One:wght@400;700;900&family=Staatliches&display=swap" rel="stylesheet">
 </head>
-<body>
-  <header>
-    <h1>Minha Conta</h1>
-  </header>
+<body class="min-h-[100vh] flex flex-col items-center justify-between">
+  <header class="w-full h-[420px] bg-zinc-900 bg-home bg-cover bg-center">
+    <div class="w-full h-full flex flex-col justify-center items-center pt-10">
+        <img src="../assets/logo.jpg" alt="Logo Casa Dos Frangos" class="w-32 h32 rounded-full shadow-lg hover:scale-110 duration-200">
+    
+        <h1 class="text-4xl mt-4 mb-2 font-bold text-white">CASA DOS FRANGOS</h1>
+    
+        <span class="text-white text-sm">[ Av. Dr. Manoel Teles, 102 - Centro, Duque de Caxias - RJ ] <br> [ Praça do Pacificador, 53 - Centro, Duque de Caxias - RJ ]</BR></span>
+        
+        <div class="bg-green-600 px-4 py-1 rounded-lg mt-5" id="date-span">
+            <span class="text-white font-medium">SEG á DOM - 18hrs as 22hrs</span>
+        </div>
+
+        <nav class="mt-10 flex justify-around w-full bg-black/60 min-h-[60px] items-center">
+            <a href="/home" class="flex items-center  px-1 py-1 rounded"><i class="fa-solid fa-percent text-white mr-2"></i><p class="text-white">Home</p></a>
+            <a href="" class="flex"><i class="fa-solid fa-percent text-white mr-2"></i><p class="text-white">Promo</p></a>
+            <a href="" class="flex"><i class="fa-solid fa-sack-dollar text-white mr-2"></i><p class="text-white">Pedidos</p></a>
+            <a href="/minha-conta" class="bg-white  flex"><i class="flex  fa-solid fa-user text-black mr-2"></i><p class="text-black flex justify-center items-center">Minha Conta</p></a>
+        </nav>  
+    </div>
+</header>
   
-  <main>
-    <form action="/minha-conta" method="POST">
-      <label for="username">Nome de Usuário:</label>
-      <input type="text" id="username" name="username" value="<%= user.name %>" required>
+  <main class="h-[100%] w-[30rem] flex-col mt-40 mb-40 border-2 border-black px-5 py-5">
+    <form class="flex items-center justify-center flex-col w-full h-full" action="/minha-conta" method="POST">
+      <div class=" mt-2 w-full h-[5rem] flex flex-col">
+        <label for="username">Nome de Usuário:</label>
+        <input class="border-2 border-black h-[40px] indent-3 rounded" type="text" id="username" name="username" value="<%= user.name %>" required>
+      </div>
 
-      <label for="email">E-mail:</label>
-      <input type="email" id="email" name="email" value="<%= user.email || '' %>">
+      <div class=" mt-2 w-full h-[5rem] flex flex-col">
+        <label for="email">E-mail:</label>
+        <input class="border-2 border-black h-[40px] indent-3 rounded" type="email" id="email" name="email" value="<%= user.email || '' %>">
+      </div>
 
-      <label for="password">Senha (deixe em branco para não alterar):</label>
-      <input type="password" id="password" name="password">
+      <div class=" mt-2 w-full h-[5rem] flex flex-col">
+        <label for="password">Senha (deixe em branco para não alterar):</label>
+        <input class="border-2 border-black h-[40px] indent-3 rounded" type="password" id="password" name="password">
+      </div>
 
-      <label for="phone">Telefone:</label>
-      <input type="tel" id="phone" name="phone" value="<%= user.phone || '' %>">
+      <div class=" mt-2 w-full h-[5rem] flex flex-col">
+        <label for="phone">Telefone:</label>
+        <input class="border-2 border-black h-[40px] indent-3 rounded" type="tel" id="phone" name="phone" value="<%= user.phone || '' %>">
+      </div>
 
-      <label for="cep">CEP:</label>
-      <input type="text" id="cep" name="cep" value="<%= user.cep || '' %>">
+      <div class=" mt-2 w-full h-[5rem] flex flex-col">
+        <label for="cep">CEP:</label>
+        <input class="border-2 border-black h-[40px] indent-3 rounded" type="text" id="cep" name="cep" value="<%= user.cep || '' %>">
+      </div>
 
-      <label for="addressNumber">Número/Lote, Quadra:</label>
-      <input type="text" id="addressNumber" name="addressNumber" value="<%= user.addressNumber || '' %>" required>
+      <div class=" mt-2 w-full h-[5rem] flex flex-col">
+        <label for="addressNumber">Número/Lote, Quadra:</label>
+        <input class="border-2 border-black h-[40px] indent-3 rounded" type="text" id="addressNumber" name="addressNumber" value="<%= user.addressNumber || '' %>" required>
+      </div>
 
-      <label for="referencePoint">Ponto de Referência:</label>
-      <input type="text" id="referencePoint" name="referencePoint" value="<%= user.referencePoint || '' %>" required>
+      <div class=" mt-2 w-full h-[5rem] flex flex-col">
+        <label for="referencePoint">Ponto de Referência:</label>
+        <input class="border-2 border-black h-[40px] indent-3 rounded" type="text" id="referencePoint" name="referencePoint" value="<%= user.referencePoint || '' %>" required>
+      </div>
 
-      <label for="birthDate">Data de Nascimento:</label>
-      <input type="date" id="birthDate" name="birthDate" value="<%= user.birthDate ? user.birthDate.toISOString().split('T')[0] : '' %>">
+      <div class=" mt-2 w-full h-[5rem] flex flex-col">
+        <label for="birthDate">Data de Nascimento:</label>
+        <input class="border-2 border-black h-[40px] indent-3 rounded" type="date" id="birthDate" name="birthDate" value="<%= user.birthDate ? user.birthDate.toISOString().split('T')[0] : '' %>">
+      </div>
 
-      <label for="gender">Gênero:</label>
-      <select id="gender" name="gender">
-        <option value="" <%= !user.gender ? 'selected' : '' %>>Selecione</option>
-        <option value="Masculino" <%= user.gender === 'Masculino' ? 'selected' : '' %>>Masculino</option>
-        <option value="Feminino" <%= user.gender === 'Feminino' ? 'selected' : '' %>>Feminino</option>
-        <option value="Outro" <%= user.gender === 'Outro' ? 'selected' : '' %>>Outro</option>
-      </select>
+      <div class="mt-2 w-full h-[5rem] flex flex-col">
+        <label for="gender">Gênero:</label>
+        <select class="border-2 border-black h-[40px] indent-3 rounded" id="gender" name="gender">
+          <option value="" <%= !user.gender ? 'selected' : '' %>>Selecione</option>
+          <option value="Masculino" <%= user.gender === 'Masculino' ? 'selected' : '' %>>Masculino</option>
+          <option value="Feminino" <%= user.gender === 'Feminino' ? 'selected' : '' %>>Feminino</option>
+          <option value="Outro" <%= user.gender === 'Outro' ? 'selected' : '' %>>Outro</option>
+        </select>
+      </div>
 
-      <button type="submit">Atualizar</button>
+      <div>
+        <button class="bg-green-600 text-white py-2 px-5 rounded" type="submit">Atualizar</button>
+      </div>
     </form>
   </main>
 
