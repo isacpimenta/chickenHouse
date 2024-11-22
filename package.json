@@ -10,12 +10,12 @@
     "build:css": "cross-env NODE_ENV=production npx tailwindcss -i ./public/style.css -o ./public/output.css --minify",
     "browser-sync": "browser-sync start --proxy \"http://localhost:3000\" --files \"./public/**/*.css, ./views/**/*.ejs, ./public/**/*.js\""
   },
-
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
+    "express-session": "^1.18.1",
     "fs": "^0.0.1-security",
     "mongoose": "^8.8.2",
     "signal-exit": "^4.1.0"

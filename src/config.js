@@ -3,21 +3,41 @@ const mongoose = require("mongoose");
 const DB_PASS = "VwFoePkRsKz6CpCY";
 
 const connect = mongoose.connect(`mongodb+srv://isac:${DB_PASS}@cluster0.1sgly.mongodb.net/`)
-.then(() => console.log("Conectado ao MongoDB Atlas"))
-.catch((err) => console.error("Erro ao conectar ao MongoDB Atlas", err));
-
+  .then(() => console.log("Conectado ao MongoDB Atlas"))
+  .catch((err) => console.error("Erro ao conectar ao MongoDB Atlas", err));
 
 const LoginSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
-    },
-    password: {
-        type: String,
-        required: true
-    }
+  name: {
+    type: String,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  email: {
+    type: String,
+    required: false // Não obrigatório no início, o usuário pode adicionar depois
+  },
+  phone: {
+    type: String,
+    required: false
+  },
+  cep: {
+    type: String,
+    required: false
+  },
+  birthDate: {
+    type: Date,
+    required: false
+  },
+  gender: {
+    type: String,
+    required: false,
+    enum: ["Masculino", "Feminino", "Outro"] // Aceita apenas essas opções
+  }
 });
 
-const collection = new mongoose.model("users", LoginSchema);
+const collection = mongoose.model("users", LoginSchema);
 
 module.exports = collection;
