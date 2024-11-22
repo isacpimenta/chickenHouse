@@ -224,10 +224,10 @@ checkoutBtn.addEventListener("click", function() {
     }
 
     const cartItems = cart.map((item) => {
-        return ` ${item.name} Quantidade: (${item.qtd}) Preço: R$ ${item.price.toFixed(2)} |`;
-    }).join("");
-
-    const message = encodeURIComponent(cartItems + ` Endereço: ${inputAddress.value}`);
+        return `🔹 **${item.name}**\n   - Quantidade: ${item.qtd}\n   - Preço: R$ ${item.price.toFixed(2)}\n`;
+    }).join("\n");
+    
+    const message = encodeURIComponent(`💼 **Itens do Carrinho:**\n\n${cartItems}⏳` + ` Endereço: ${inputAddress.value}`);
     const phone = "5521966630496";
 
     window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
