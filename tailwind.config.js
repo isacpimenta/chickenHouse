@@ -10,7 +10,11 @@ module.exports = {
     fontFamily:{
       'sans': ['Oswald', 'sans-serif'],
     },
-    extend: {},
+    extend: {
+      backgroundImage: {
+        "home": "url('/assets/bg.png')" // Adiciona sua imagem de fundo personalizada
+      }
+    },
   },
   plugins: [],
 }
