@@ -27,7 +27,7 @@ app.use(session({
   secret: 'seuSegredoSeguro', // Substitua por um segredo mais seguro
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: true } // Configure como true se estiver usando HTTPS
+  cookie: { secure: false } // Configure como true se estiver usando HTTPS
 }));
 
 // Configurar BrowserSync somente em desenvolvimento
