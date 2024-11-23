@@ -140,6 +140,7 @@ app.get('/logout', (req, res) => {
       console.error('Erro ao encerrar sessão:', err);
       return res.status(500).send('Erro ao encerrar sessão');
     }
+    console.error('Sessão encerrada');
     res.redirect('/'); // Redireciona para a página de login
   });
 });
