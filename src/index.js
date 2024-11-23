@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
-const MongoStore = require('connect-mongo');
 const session = require('express-session'); // Adicionado para sessões
 const collection = require('./config'); // Certifique-se de que esse arquivo está configurado corretamente
 const fs = require('fs');
@@ -25,11 +24,10 @@ app.set('views', path.join(__dirname, '../views'));
 
 // Configuração de sessões
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'AKOEq!!335h9!%j4298jbmi8sdjnm¨!$vuhq3459', // Mova o segredo para o .env
+  secret: 'seuSegredoSeguro', // Substitua por um segredo mais seguro
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }), // URL do MongoDB
-  cookie: { secure: false } // Use true em produção
+  cookie: { secure: false } // Configure como true se estiver usando HTTPS
 }));
 
 // Configurar BrowserSync somente em desenvolvimento
