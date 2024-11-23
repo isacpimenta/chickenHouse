@@ -113,17 +113,18 @@ app.post('/signup', async (req, res) => {
 // Login de usuário
 app.post('/login', async (req, res) => {
   try {
+    // Verificar nome de usuário
     const user = await collection.findOne({ name: req.body.username });
 
     if (!user) {
       return res.status(404).send('Nome de usuário não encontrado!');
     }
 
+    // Verificar senha
     const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
 
     if (isPasswordValid) {
       req.session.userId = user._id; // Salvar o ID do usuário na sessão
-      console.log('Usuário logado:', user._id); // Adicione log
       res.redirect('/home');
     } else {
       res.status(401).send('Senha inválida!');
