@@ -62,6 +62,7 @@ app.get('/signup', (req, res) => {
 });
 
 app.get('/minha-conta', checkAuth, async (req, res) => {
+  console.log('Usuário autenticado com ID:', req.session.userId);
   try {
     const user = await collection.findById(req.session.userId); // Buscar o usuário logado
     if (!user) {
@@ -69,9 +70,11 @@ app.get('/minha-conta', checkAuth, async (req, res) => {
     }
     res.render('minhaConta', { user }); // Renderizar a página com os dados
   } catch (error) {
+    console.log('Usuário autenticado com ID:', req.session.userId);
     console.error('Erro ao buscar dados do usuário:', error);
     res.status(500).send('Erro ao carregar a página de Minha Conta.');
   }
+  console.log('Usuário autenticado com ID:', req.session.userId);
 });
 
 
