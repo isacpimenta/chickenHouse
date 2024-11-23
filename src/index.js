@@ -23,9 +23,8 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../views'));
 
-// Configuração de sessões
 app.use(session({
-  secret: 'seu_segredo_aqui',
+  secret: 'seuSegredoSeguro',
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({ mongoUrl: 'mongodb+srv://isac:VwFoePkRsKz6CpCY@cluster0.1sgly.mongodb.net/' }),
