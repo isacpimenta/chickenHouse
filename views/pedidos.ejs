@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meus Pedidos</title>
+  <link rel="stylesheet" href="/output.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Passion+One:wght@400;700;900&family=Staatliches&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="w-full h-[420px] bg-zinc-900 bg-home bg-cover bg-center">
+        <div class="w-full h-full flex flex-col justify-center items-center pt-10">
+            <img src="../assets/logo.jpg" alt="Logo Casa Dos Frangos" class="w-32 h32 rounded-full shadow-lg hover:scale-110 duration-200">
+        
+            <h1 class="text-4xl mt-4 mb-2 font-bold text-white">CASA DOS FRANGOS</h1>
+        
+            <span class="text-white text-sm">[ Av. Dr. Manoel Teles, 102 - Centro, Duque de Caxias - RJ ] <br> [ Praça do Pacificador, 53 - Centro, Duque de Caxias - RJ ]</BR></span>
+            
+            <div class="bg-green-600 px-4 py-1 rounded-lg mt-5" id="date-span">
+                <span class="text-white font-medium">SEG á DOM - 18hrs as 22hrs</span>
+            </div>
+
+            <nav class="mt-10 flex justify-around w-full bg-black/60 min-h-[60px] items-center">
+                <a href="" class="flex items-center rounded"><i class="fa fa-house text-white mr-1"></i><p class="text-white flex justify-center items-center">Home</p></a>
+                <a href="" class="flex items-center rounded"><i class="fa-solid fa-percent text-white mr-1"></i><p class="text-white">Promo</p></a>
+                <a href="../pedidos" class="flex items-center justify-center bg-white px-1 py-1 rounded"><i class=" fa-solid fa-sack-dollar text-black mr-2"></i><p class="text-black flex justify-center items-center">Pedidos</p></a>
+                <a href="../minha-conta" class="flex"><i class="fa-solid fa-user text-white mr-1"></i><p class="text-white">Minha Conta</p></a>
+            </nav>  
+        </div>
+    </header>
+  <main class="flex mt-20 flex-col items-center justify-center mb-20">
+      <h1 class="text-4xl font-bold mb-10">Meus Pedidos</h1>
+      <% if (pedidos.length === 0) { %>
+        <p>Você ainda não fez nenhum pedido.</p>
+      <% } else { %>
+        <% pedidos.forEach(pedido => { %>
+            <div class="mb-10 border-2 border-black"> <!-- Pedido -->
+                <div class="flex flex-col w-[22rem] mb-5"> <!-- Itens do pedido -->
+                    <ul>
+                        <% pedido.items.forEach(item => { %>
+                            <li><%= item.name %> - Quantidade: <%= item.quantity %> - R$ <%= (item.price * item.quantity).toFixed(2) %></li>
+                        <% }) %>
+                    </ul>
+                    <p>Data: <%= new Date(pedido.createdAt).toLocaleString() %></p>
+                </div>
+                
+                <div class="flex flex-col w-[22rem] indent-3  mb-1"><!-- Informações do pedido -->
+                    <h2 class="text-center font-bold text-2xl mb-2">Informações do Pedido</h2>
+
+                    <h3 class="w-full">Pedido ID: <span class="font-bold"><%= pedido._id %></span></h3>
+                    <p class="w-full">Status: <span><%= pedido.status %></span></p>
+                    <p class="w-full">Total: R$ <span><%= pedido.totalPrice.toFixed(2) %></span></p>
+                    <p class="w-full">Tipo de Entrega: <span><%= pedido.deliveryType %></span></p>
+                    <p class="w-full">Endereço: <span><%= pedido.address %></span></p>
+                </div>
+                
+
+            </div>
+            <hr>
+        <% }) %>
+      <% } %>
+  </main>
+</body>
+</html>

@@ -51,5 +51,4 @@ const LoginSchema = new mongoose.Schema({
 });
 
 const collection = mongoose.model("users", LoginSchema);
-
 module.exports = collection;

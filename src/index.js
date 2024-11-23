@@ -6,6 +6,7 @@ const session = require('express-session'); // Adicionado para sessões
 const MongoStore = require('connect-mongo');
 const collection = require('./config'); // Certifique-se de que esse arquivo está configurado corretamente
 const fs = require('fs');
+const Pedido = require("./models/Pedido"); // Caminho correto para o modelo
 
 // Carregar variáveis de ambiente do arquivo .env
 dotenv.config();
@@ -111,6 +112,45 @@ app.post('/signup', async (req, res) => {
     res.status(500).send('Erro ao cadastrar o usuário.');
   }
 });
+
+// Rota para criar um novo pedido
+app.post('/pedidos', checkAuth, async (req, res) => {
+  try {
+      const { items, deliveryType, address } = req.body; // Recebe os dados enviados no frontend
+
+      const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0); // Calcula o total do pedido
+
+      // Salva o pedido no banco de dados
+      const novoPedido = new Pedido({
+          userId: req.session.userId,
+          items,
+          totalPrice,
+          status: 'Pendente',
+          address,
+          deliveryType,
+      });
+
+      await novoPedido.save(); // Salva no MongoDB
+
+      res.status(201).send({ message: "Pedido salvo com sucesso!" });
+  } catch (error) {
+      console.error("Erro ao salvar pedido:", error);
+      res.status(500).send({ error: "Erro ao salvar o pedido" });
+  }
+});
+
+
+// Rota para listar os pedidos do usuário logado
+app.get('/pedidos', checkAuth, async (req, res) => {
+  try {
+    const pedidos = await Pedido.find({ userId: req.session.userId }).sort({ createdAt: -1 });
+    res.render('pedidos', { pedidos });
+  } catch (error) {
+    console.error('Erro ao buscar pedidos:', error);
+    res.status(500).send('Erro ao carregar os pedidos.');
+  }
+});
+
 
 // Login de usuário
 app.post('/login', async (req, res) => {

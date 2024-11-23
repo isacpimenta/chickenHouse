@@ -160,7 +160,7 @@ checkoutBtn.addEventListener("click", function() {
     //     }).showToast();
     //     return;
     // }
-
+    
     if (cart.length === 0) {
         Toastify({
             text: "Seu carrinho está vazio!",
@@ -177,7 +177,6 @@ checkoutBtn.addEventListener("click", function() {
         return;
     }
 
-    // Verifica se um tipo de entrega foi selecionado
     if (!deliveryOption.checked && !pickupOption.checked) {
         Toastify({
             text: "Por favor, escolha um tipo de entrega.",
@@ -194,49 +193,68 @@ checkoutBtn.addEventListener("click", function() {
         return;
     }
 
-    // Verifica se a opção de entrega foi selecionada
-    if (deliveryOption.checked) {
-        if (inputAddress.value === "") {
-            addressWarn.classList.remove("hidden");
-            inputAddress.classList.add("border-red-700");
-            return;
-        }
-    } else {
-        // Se a opção de retirada foi escolhida, verifica se uma sede foi selecionada
-        const pickupLocation = document.getElementById("pickup-location");
-        if (pickupLocation.value === "") {
-            Toastify({
-                text: "Por favor, escolha uma sede para retirada.",
-                duration: 3000,
-                close: true,
-                gravity: "top",
-                position: "left",
-                stopOnFocus: true,
-                style: {
-                    background: "#ef4444",
-                },
-                onClick: function() {}
-            }).showToast();
-            return;
-        }
-        addressWarn.classList.add("hidden");
-        inputAddress.classList.remove("border-red-700");
+    if (deliveryOption.checked && inputAddress.value === "") {
+        addressWarn.classList.remove("hidden");
+        inputAddress.classList.add("border-red-700");
+        return;
     }
 
-    const cartItems = cart.map((item) => {
-        return ` ${item.name} Quantidade: (${item.qtd}) Preço: R$ ${item.price.toFixed(2)} |`;
-    }).join("");
+    const orderDetails = {
+        items: cart.map(item => ({
+            name: item.name,
+            price: item.price,
+            quantity: item.qtd,
+        })),
+        deliveryType: deliveryOption.checked ? "Entrega" : "Retirada",
+        address: deliveryOption.checked ? inputAddress.value : "Retirada na loja",
+    };
 
-    const message = encodeURIComponent(`💼 **Itens do Carrinho:**\n\n${cartItems}⏳` + ` Endereço: ${inputAddress.value}`);
-    const phone = "5521966630496";
+    // Envia o pedido para o backend
+    fetch('/pedidos', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderDetails),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Erro ao enviar o pedido");
+        }
+        Toastify({
+            text: "Pedido enviado com sucesso!",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "left",
+            stopOnFocus: true,
+            style: {
+                background: "#22c55e",
+            },
+            onClick: function() {}
+        }).showToast();
 
-    window.open(`https://wa.me/${phone}?text=${message}`, "_blank");
-
-    cart = [];
-    updateCartModal();
-
-    console.log(cartItems);
+        cart = []; // Limpa o carrinho
+        updateCartModal(); // Atualiza a exibição do carrinho
+        inputAddress.value = ""; // Limpa o endereço
+    })
+    .catch(error => {
+        console.error("Erro ao enviar o pedido:", error);
+        Toastify({
+            text: "Erro ao enviar o pedido, tente novamente.",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "left",
+            stopOnFocus: true,
+            style: {
+                background: "#ef4444",
+            },
+            onClick: function() {}
+        }).showToast();
+    });
 });
+
 
 function checkRestaurantOpen(){
     const data = new Date();
