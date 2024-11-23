@@ -206,8 +206,13 @@ checkoutBtn.addEventListener("click", function() {
             quantity: item.qtd,
         })),
         deliveryType: deliveryOption.checked ? "Entrega" : "Retirada",
-        address: deliveryOption.checked ? inputAddress.value : "Retirada na loja",
+        address: deliveryOption.checked 
+            ? inputAddress.value 
+            : (pickupOption.value === 'sede-1'
+                ? "Av. Dr. Manoel Teles, 102 - Centro, Duque de Caxias - RJ"
+                : "Praça do Pacificador, 53 - Centro, Duque de Caxias - RJ"),
     };
+    
 
     // Envia o pedido para o backend
     fetch('/pedidos', {
