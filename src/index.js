@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
+const MongoStore = require('connect-mongo');
 const session = require('express-session'); // Adicionado para sessões
 const collection = require('./config'); // Certifique-se de que esse arquivo está configurado corretamente
 const fs = require('fs');
@@ -24,10 +25,11 @@ app.set('views', path.join(__dirname, '../views'));
 
 // Configuração de sessões
 app.use(session({
-  secret: 'seuSegredoSeguro', // Substitua por um segredo mais seguro
+  secret: process.env.SESSION_SECRET || 'AKOEq!!335h9!%j4298jbmi8sdjnm¨!$vuhq3459', // Mova o segredo para o .env
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // Configure como true se estiver usando HTTPS
+  store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }), // URL do MongoDB
+  cookie: { secure: process.env.NODE_ENV === 'production' } // Use true em produção
 }));
 
 // Configurar BrowserSync somente em desenvolvimento
@@ -111,18 +113,17 @@ app.post('/signup', async (req, res) => {
 // Login de usuário
 app.post('/login', async (req, res) => {
   try {
-    // Verificar nome de usuário
     const user = await collection.findOne({ name: req.body.username });
 
     if (!user) {
       return res.status(404).send('Nome de usuário não encontrado!');
     }
 
-    // Verificar senha
     const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
 
     if (isPasswordValid) {
       req.session.userId = user._id; // Salvar o ID do usuário na sessão
+      console.log('Usuário logado:', user._id); // Adicione log
       res.redirect('/home');
     } else {
       res.status(401).send('Senha inválida!');
