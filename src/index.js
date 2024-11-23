@@ -25,7 +25,7 @@ app.set('views', path.join(__dirname, '../views'));
 
 // Configuração de sessões
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'AKOEq!!335h9!%j4298jbmi8sdjnm¨!$vuhq3459', // Mova o segredo para o .env
+  secret: process.env.SESSION_SECRET, // Mova o segredo para o .env
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({ mongoUrl: process.env.MONGODB_URI }), // URL do MongoDB
