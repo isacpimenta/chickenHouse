@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Prato do Dia</title>
+  <link rel="stylesheet" href="../output.css">
+</head>
+<body>
+  <h1>Prato do Dia</h1>
+  
+  <% if (dish) { %>
+    <div>
+      <h2><%= dish.name %></h2>
+      <p><%= dish.description %></p>
+      <p>R$ <%= dish.price.toFixed(2) %></p>
+    </div>
+  <% } else { %>
+    <p>Prato do dia ainda não definido.</p>
+  <% } %>
+
+  <h2>Definir Novo Prato</h2>
+  <form method="POST" action="/admin/prato-do-dia">
+    <label for="name">Nome:</label>
+    <input type="text" id="name" name="name" required>
+    <label for="description">Descrição:</label>
+    <textarea id="description" name="description" required></textarea>
+    <label for="price">Preço:</label>
+    <input type="number" id="price" name="price" step="0.01" required>
+    <button type="submit">Salvar</button>
+  </form>
+</body>
+</html>

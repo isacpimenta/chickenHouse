@@ -7,6 +7,8 @@ const MongoStore = require('connect-mongo');
 const User = require('./config'); // Certifique-se de que esse arquivo está configurado corretamente
 const fs = require('fs');
 const Pedido = require("./models/Pedido"); // Caminho correto para o modelo
+const adminRoutes = require('./routes/adminRoutes'); // Ajuste o caminho
+const userRoutes = require('./routes/userRoutes');
 
 // Carregar variáveis de ambiente do arquivo .env
 dotenv.config();
@@ -16,6 +18,9 @@ const app = express();
 // Configuração para dados JSON e URL-encoded
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// Registra as rotas do usuário
+app.use('/', userRoutes); // Rota para o prefixo '/'
 
 // Configuração para servir arquivos estáticos
 app.use(express.static(path.join(__dirname, '../public')));
@@ -63,28 +68,6 @@ app.get('/signup', (req, res) => {
   res.render('signup'); // Renderiza signup.ejs
 });
 
-app.get('/minha-conta', checkAuth, async (req, res) => {
-  console.log('Usuário autenticado com ID:', req.session.userId);
-  try {
-    const user = await User.findById(req.session.userId); // Buscar o usuário logado
-    if (!user) {
-      return res.status(404).send('Usuário não encontrado.');
-    }
-    res.render('minhaConta', { user }); // Renderizar a página com os dados
-  } catch (error) {
-    console.log('Usuário autenticado com ID:', req.session.userId);
-    console.error('Erro ao buscar dados do usuário:', error);
-    res.status(500).send('Erro ao carregar a página de Minha Conta.');
-  }
-  console.log('Usuário autenticado com ID:', req.session.userId);
-});
-
-
-
-app.get('/home', checkAuth, (req, res) => {
-  res.render('home'); // Renderiza home.ejs apenas se o usuário estiver autenticado
-});
-
 // Cadastro de usuário
 app.post('/signup', async (req, res) => {
   const data = {
@@ -113,67 +96,53 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-// Rota para criar um novo pedido
-app.post('/pedidos', checkAuth, async (req, res) => {
-  try {
-      const { items, deliveryType, address } = req.body; // Recebe os dados enviados no frontend
-
-      const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0); // Calcula o total do pedido
-
-      // Salva o pedido no banco de dados
-      const novoPedido = new Pedido({
-          userId: req.session.userId,
-          items,
-          totalPrice,
-          status: 'Pendente',
-          address,
-          deliveryType,
-      });
-
-      await novoPedido.save(); // Salva no MongoDB
-
-      res.status(201).send({ message: "Pedido salvo com sucesso!" });
-  } catch (error) {
-      console.error("Erro ao salvar pedido:", error);
-      res.status(500).send({ error: "Erro ao salvar o pedido" });
-  }
-});
-
-
-// Rota para listar os pedidos do usuário logado
-app.get('/pedidos', checkAuth, async (req, res) => {
-  try {
-    const pedidos = await Pedido.find({ userId: req.session.userId }).sort({ createdAt: -1 });
-    res.render('pedidos', { pedidos });
-  } catch (error) {
-    console.error('Erro ao buscar pedidos:', error);
-    res.status(500).send('Erro ao carregar os pedidos.');
-  }
-});
-
-
 // Login de usuário
 app.post('/login', async (req, res) => {
   try {
-    // Verificar nome de usuário
     const user = await User.findOne({ name: req.body.username });
 
     if (!user) {
       return res.status(404).send('Nome de usuário não encontrado!');
     }
 
-    // Verificar senha
     const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
 
     if (isPasswordValid) {
-      req.session.userId = user._id; // Salvar o ID do usuário na sessão
-      res.redirect('/home');
+      req.session.userId = user._id;
+      req.session.isAdmin = user.isAdmin; // Armazena o status de admin na sessão
+      res.redirect(user.isAdmin ? '/admin' : '/home'); // Redireciona conforme o tipo de usuário
     } else {
       res.status(401).send('Senha inválida!');
     }
   } catch (error) {
     console.error('Erro no login:', error);
     res.status(500).send('Erro ao realizar login.');
+  }
+});
+
+// Rota para criar um novo pedido
+app.post('/pedidos', checkAuth, async (req, res) => {
+  try {
+    const { items, deliveryType, address } = req.body; // Recebe os dados enviados no frontend
+
+    const totalPrice = items.reduce((acc, item) => acc + item.price * item.quantity, 0); // Calcula o total do pedido
+
+    // Salva o pedido no banco de dados
+    const novoPedido = new Pedido({
+      userId: req.session.userId,
+      items,
+      totalPrice,
+      status: 'Pendente',
+      address,
+      deliveryType,
+    });
+
+    await novoPedido.save(); // Salva no MongoDB
+
+    res.status(201).send({ message: "Pedido salvo com sucesso!" });
+  } catch (error) {
+    console.error("Erro ao salvar pedido:", error);
+    res.status(500).send({ error: "Erro ao salvar o pedido" });
   }
 });
 
@@ -189,40 +158,8 @@ app.get('/logout', (req, res) => {
   });
 });
 
-app.post('/minha-conta', checkAuth, async (req, res) => {
-  console.log("Requisição recebida:", req.body);
-  try {
-    const { username, email, password, phone, cep, birthDate, addressNumber, referencePoint, gender } = req.body;
-
-    // Verificar se o usuário quer atualizar a senha
-    let hashedPassword = undefined;
-    if (password) {
-      const saltRounds = 10;
-      hashedPassword = await bcrypt.hash(password, saltRounds);
-    }
-
-    // Atualizar os dados do usuário no banco de dados
-    await User.findByIdAndUpdate(req.session.userId, {
-      name: username,
-      email,
-      addressNumber,
-      referencePoint,
-      phone,
-      cep,
-      birthDate: birthDate ? new Date(birthDate) : undefined,
-      gender,
-      ...(password && { password: hashedPassword }) // Atualiza a senha apenas se for enviada
-    });
-
-    res.redirect('/home'); // Redireciona para a página inicial
-  } catch (error) {
-    console.error('Erro ao atualizar dados do usuário:', error);
-    res.status(500).send('Erro ao atualizar os dados.');
-  }
-});
-
-
-
+// Rota para o admin
+app.use('/admin', adminRoutes); // Registra as rotas para o prefixo /admin
 
 // Iniciar servidor
 const port = process.env.PORT || 3000; // Porta configurável via variável de ambiente

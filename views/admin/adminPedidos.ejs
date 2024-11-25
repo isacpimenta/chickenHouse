@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciamento de Pedidos</title>
+  <link rel="stylesheet" href="../output.css">
+</head>
+<body>
+  <h1>Pedidos</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Usuário</th>
+        <th>Itens</th>
+        <th>Total</th>
+        <th>Status</th>
+        <th>Ação</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% pedidos.forEach(pedido => { %>
+        <tr>
+          <td><%= pedido._id %></td>
+          <td><%= pedido.userId.name %></td>
+          <td>
+            <% pedido.items.forEach(item => { %>
+              <p><%= item.name %> - <%= item.quantity %></p>
+            <% }); %>
+          </td>
+          <td>R$ <%= pedido.totalPrice.toFixed(2) %></td>
+          <td><%= pedido.status %></td>
+          <td>
+            <form method="POST" action="/admin/pedidos/<%= pedido._id %>/status">
+              <select name="status">
+                <option value="Pendente" <%= pedido.status === 'Pendente' ? 'selected' : '' %>>Pendente</option>
+                <option value="Em preparo" <%= pedido.status === 'Em preparo' ? 'selected' : '' %>>Em preparo</option>
+                <option value="Entregue" <%= pedido.status === 'Entregue' ? 'selected' : '' %>>Entregue</option>
+              </select>
+              <button type="submit">Atualizar</button>
+            </form>
+          </td>
+        </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</body>
+</html>
