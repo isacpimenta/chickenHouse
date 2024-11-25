@@ -1,49 +1,73 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gerenciamento de Pedidos</title>
-  <link rel="stylesheet" href="../output.css">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></title>
+    <link rel="stylesheet" href="/output.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Passion+One:wght@400;700;900&family=Staatliches&display=swap" rel="stylesheet">
 </head>
-<body>
-  <h1>Pedidos</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Usuário</th>
-        <th>Itens</th>
-        <th>Total</th>
-        <th>Status</th>
-        <th>Ação</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% pedidos.forEach(pedido => { %>
+<body class="min-h-[100vh]">
+  <header class="w-full h-[420px] bg-zinc-900 bg-home bg-cover bg-center">
+    <div class="w-full h-full flex flex-col justify-center items-center pt-10">
+        <img src="../assets/logo.jpg" alt="Logo Casa Dos Frangos" class="w-32 h32 rounded-full shadow-lg hover:scale-110 duration-200">
+    
+        <h1 class="text-4xl mt-4 mb-2 font-bold text-white">CASA DOS FRANGOS</h1>
+    
+        <span class="text-white text-sm">[ Av. Dr. Manoel Teles, 102 - Centro, Duque de Caxias - RJ ] <br> [ Praça do Pacificador, 53 - Centro, Duque de Caxias - RJ ]</BR></span>
+        
+        <div class="bg-green-600 px-4 py-1 rounded-lg mt-5" id="date-span">
+            <span class="text-white font-medium">SEG á DOM - 18hrs as 22hrs</span>
+        </div>
+
+        <nav class="mt-10 flex justify-around w-full bg-black/60 min-h-[60px] items-center">
+            <a href="" class="flex items-center bg-white px-1 py-1 rounded"><i class="fa fa-house text-black mr-2"></i><p class="text-black flex justify-center items-center">Home</p></a>
+            <a href="/prato" class="flex"><i class="fa-solid fa-percent text-white mr-2"></i><p class="text-white">Promo</p></a>
+            <a href="/dashboard" class="flex"><i class="fa-solid fa-sack-dollar text-white mr-2"></i><p class="text-white">Pedidos</p></a>
+        </nav>  
+    </div>
+  </header>
+  <div class="w-full min-h-[40rem] flex flex-col items-center justify-center">
+    <h1 class="mb-5 font-bold text-2xl">Pedidos</h1>
+    <table class="border-2 border-black text-justify">
+      <thead>
         <tr>
-          <td><%= pedido._id %></td>
-          <td><%= pedido.userId.name %></td>
-          <td>
-            <% pedido.items.forEach(item => { %>
-              <p><%= item.name %> - <%= item.quantity %></p>
-            <% }); %>
-          </td>
-          <td>R$ <%= pedido.totalPrice.toFixed(2) %></td>
-          <td><%= pedido.status %></td>
-          <td>
-            <form method="POST" action="/admin/pedidos/<%= pedido._id %>/status">
-              <select name="status">
-                <option value="Pendente" <%= pedido.status === 'Pendente' ? 'selected' : '' %>>Pendente</option>
-                <option value="Em preparo" <%= pedido.status === 'Em preparo' ? 'selected' : '' %>>Em preparo</option>
-                <option value="Entregue" <%= pedido.status === 'Entregue' ? 'selected' : '' %>>Entregue</option>
-              </select>
-              <button type="submit">Atualizar</button>
-            </form>
-          </td>
+          <th class="border-2 border-black">Usuário</th>
+          <th class="border-2 border-black">Itens</th>
+          <th class="border-2 border-black">Total</th>
+          <th class="border-2 border-black">Status</th>
+          <th class="border-2 border-black">Ação</th>
         </tr>
-      <% }); %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% pedidos.forEach(pedido => { %>
+          <tr>
+            <td class="border-2 border-black"><%= pedido.userId.name %></td>
+            <td class="border-2 border-black">
+              <% pedido.items.forEach(item => { %>
+                <p><%= item.name %> - <%= item.quantity %></p>
+              <% }); %>
+            </td>
+            <td class="border-2 border-black">R$ <%= pedido.totalPrice.toFixed(2) %></td>
+            <td class="border-2 border-black"><%= pedido.status %></td>
+            <td class="border-2 border-black">
+              <form method="POST" action="/admin/pedidos/<%= pedido._id %>/status">
+                <select name="status">
+                  <option value="Pendente" <%= pedido.status === 'Pendente' ? 'selected' : '' %>>Pendente</option>
+                  <option value="Em preparo" <%= pedido.status === 'Em preparo' ? 'selected' : '' %>>Em preparo</option>
+                  <option value="Entregue" <%= pedido.status === 'Entregue' ? 'selected' : '' %>>Entregue</option>
+                </select>
+                <button type="submit">Atualizar</button>
+              </form>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>

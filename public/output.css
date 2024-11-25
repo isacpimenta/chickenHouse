@@ -733,6 +733,10 @@ video {
   min-height: 100vh;
 }
 
+.min-h-\[40rem\] {
+  min-height: 40rem;
+}
+
 .min-h-\[60px\] {
   min-height: 60px;
 }
@@ -959,6 +963,10 @@ video {
 
 .text-center {
   text-align: center;
+}
+
+.text-justify {
+  text-align: justify;
 }
 
 .indent-3 {

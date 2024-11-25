@@ -5,23 +5,25 @@ const User = require('../config'); // Certifique-se de que esse arquivo está co
 const fs = require('fs');
 const router = express.Router();
 const Pedido = require("../models/Pedido"); // Caminho correto para o modelo
-const checkAuth = require('../middlewares/authMiddleware'); 
+const { checkAuth } = require('../middlewares/authMiddleware'); 
 
-// Exemplo correto de uso do router.get()
+console.log('Arquivo userRoutes.js carregado');
+
 router.get('/minha-conta', checkAuth, async (req, res) => {
-    console.log('Usuário autenticado com ID:', req.session.userId);
-    try {
-      const user = await User.findById(req.session.userId); // Buscar o usuário logado
-      if (!user) {
-        return res.status(404).send('Usuário não encontrado.');
-      }
-      res.render('minhaConta', { user }); // Renderizar a página com os dados
-    } catch (error) {
-      console.log('Usuário autenticado com ID:', req.session.userId);
-      console.error('Erro ao buscar dados do usuário:', error);
-      res.status(500).send('Erro ao carregar a página de Minha Conta.');
+  console.log('Usuário autenticado com ID:', req.session.userId);
+  try {
+    const user = await User.findById(req.session.userId);
+    if (!user) {
+      return res.status(404).send('Usuário não encontrado.');
     }
+    res.render('minhaConta', { user });
+  } catch (error) {
+    console.error('Erro ao buscar dados do usuário:', error);
+    res.status(500).send('Erro ao carregar a página de Minha Conta.');
+  }
 });
+
+module.exports = router;
 
 
 // Rota para 'home'
@@ -33,7 +35,7 @@ router.get('/home', checkAuth, (req, res) => {
 router.get('/pedidos', checkAuth, async (req, res) => {
     try {
       const pedidos = await Pedido.find({ userId: req.session.userId }).sort({ createdAt: -1 });
-      res.render('pedidos', { pedidos });
+      res.render('./pedidos', { pedidos });
     } catch (error) {
       console.error('Erro ao buscar pedidos:', error);
       res.status(500).send('Erro ao carregar os pedidos.');
@@ -73,4 +75,3 @@ router.post('/minha-conta', checkAuth, async (req, res) => {
     }
 });
 
-module.exports = router; // Exportando o roteador

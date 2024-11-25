@@ -1,7 +1,11 @@
 // adminRoutes.js
 const express = require('express');
 const { checkAuth, checkAdmin } = require('../middlewares/authMiddleware');
+const Pedido = require('../models/Pedido'); // Importação do modelo Pedido
+const User = require('../config'); // Importação do modelo User
 const router = express.Router();
+
+console.log("entrou em admin routes")
 
 // Aplicar o middleware checkAuth e checkAdmin nas rotas administrativas
 router.use(checkAuth, checkAdmin);
@@ -11,16 +15,19 @@ router.get('/', (req, res) => {
   res.render('admin/home'); // Renderiza a view admin/home
 });
 
-// Em adminRoutes.js
-router.get('/pedidos', checkAdmin, async (req, res) => {
+router.get('/dashboard', async (req, res) => {
   try {
-    const pedidos = await Pedido.find().sort({ createdAt: -1 }); // Ou qualquer filtro que você queira
-    res.render('admin/adminPedidos', { pedidos });  // Aqui o caminho correto para a view
+    const pedidos = await Pedido.find()
+      .sort({ createdAt: -1 })
+      .populate('userId', 'name'); // Popula o campo userId com o campo 'name' do usuário
+
+    res.render('admin/adminPedidos', { pedidos });
   } catch (error) {
     console.error('Erro ao buscar pedidos:', error);
     res.status(500).send('Erro ao carregar pedidos da administração.');
   }
 });
+
 
 
 module.exports = router;

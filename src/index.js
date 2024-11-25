@@ -19,9 +19,6 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Registra as rotas do usuário
-app.use('/', userRoutes); // Rota para o prefixo '/'
-
 // Configuração para servir arquivos estáticos
 app.use(express.static(path.join(__dirname, '../public')));
 
@@ -36,6 +33,10 @@ app.use(session({
   store: MongoStore.create({ mongoUrl: 'mongodb+srv://isac:VwFoePkRsKz6CpCY@cluster0.1sgly.mongodb.net/' }),
   cookie: { secure: false } // Mude para true se estiver usando HTTPS
 }));
+
+// Registra as rotas
+app.use('/admin', adminRoutes);
+app.use('/', userRoutes); 
 
 // Configurar BrowserSync somente em desenvolvimento
 if (process.env.NODE_ENV === 'development') {
@@ -157,9 +158,6 @@ app.get('/logout', (req, res) => {
     res.redirect('/'); // Redireciona para a página de login
   });
 });
-
-// Rota para o admin
-app.use('/admin', adminRoutes); // Registra as rotas para o prefixo /admin
 
 // Iniciar servidor
 const port = process.env.PORT || 3000; // Porta configurável via variável de ambiente
