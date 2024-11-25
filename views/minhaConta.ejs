@@ -28,7 +28,7 @@
         <nav class="mt-10 flex justify-around w-full bg-black/60 min-h-[60px] items-center">
             <a href="/home" class="flex items-center  px-1 py-1 rounded"><i class="fa-solid fa-home text-white mr-2"></i><p class="text-white">Home</p></a>
             <a href="" class="flex"><i class="fa-solid fa-percent text-white mr-2"></i><p class="text-white">Promo</p></a>
-            <a href="" class="flex"><i class="fa-solid fa-sack-dollar text-white mr-2"></i><p class="text-white">Pedidos</p></a>
+            <a href="/pedidos" class="flex"><i class="fa-solid fa-sack-dollar text-white mr-2"></i><p class="text-white">Pedidos</p></a>
             <a href="/minha-conta" class="bg-white flex items-center px-1 py-1 rounded"><i class="flex  fa-solid fa-user text-black mr-2"></i><p class="text-black flex justify-center items-center">Minha Conta</p></a>
         </nav>  
     </div>
@@ -95,5 +95,19 @@
   <footer class="mt-40">
     <!-- Aqui você pode colocar informações de rodapé, se necessário -->
   </footer>
+
+  <script>
+    document.getElementById('phone').addEventListener('input', function (e) {
+      let x = e.target.value.replace(/\D/g, '');
+      x = x.replace(/^(\d{2})(\d{5})(\d{4}).*/, '($1) $2-$3');
+      e.target.value = x;
+    });
+  
+    document.getElementById('cep').addEventListener('input', function (e) {
+      let x = e.target.value.replace(/\D/g, '');
+      x = x.replace(/^(\d{5})(\d{3}).*/, '$1-$2');
+      e.target.value = x;
+    });
+  </script>  
 </body>
 </html>

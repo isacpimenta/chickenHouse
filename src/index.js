@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 const session = require('express-session'); // Adicionado para sessões
 const MongoStore = require('connect-mongo');
-const collection = require('./config'); // Certifique-se de que esse arquivo está configurado corretamente
+const User = require('./config'); // Certifique-se de que esse arquivo está configurado corretamente
 const fs = require('fs');
 const Pedido = require("./models/Pedido"); // Caminho correto para o modelo
 
@@ -14,8 +14,8 @@ dotenv.config();
 const app = express();
 
 // Configuração para dados JSON e URL-encoded
-app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // Configuração para servir arquivos estáticos
 app.use(express.static(path.join(__dirname, '../public')));
@@ -66,7 +66,7 @@ app.get('/signup', (req, res) => {
 app.get('/minha-conta', checkAuth, async (req, res) => {
   console.log('Usuário autenticado com ID:', req.session.userId);
   try {
-    const user = await collection.findById(req.session.userId); // Buscar o usuário logado
+    const user = await User.findById(req.session.userId); // Buscar o usuário logado
     if (!user) {
       return res.status(404).send('Usuário não encontrado.');
     }
@@ -94,7 +94,7 @@ app.post('/signup', async (req, res) => {
 
   try {
     // Verificar se o usuário já existe
-    const existingUser = await collection.findOne({ name: data.name });
+    const existingUser = await User.findOne({ name: data.name });
 
     if (existingUser) {
       return res.status(400).send('Esse usuário já existe. Por favor, use outro nome.');
@@ -105,7 +105,7 @@ app.post('/signup', async (req, res) => {
     data.password = await bcrypt.hash(data.password, saltRounds);
 
     // Inserir dados no banco de dados
-    await collection.insertMany([data]); // Corrigido para enviar um array
+    await User.insertMany([data]); // Corrigido para enviar um array
     res.redirect('/');
   } catch (error) {
     console.error('Erro no cadastro:', error);
@@ -156,7 +156,7 @@ app.get('/pedidos', checkAuth, async (req, res) => {
 app.post('/login', async (req, res) => {
   try {
     // Verificar nome de usuário
-    const user = await collection.findOne({ name: req.body.username });
+    const user = await User.findOne({ name: req.body.username });
 
     if (!user) {
       return res.status(404).send('Nome de usuário não encontrado!');
@@ -190,8 +190,9 @@ app.get('/logout', (req, res) => {
 });
 
 app.post('/minha-conta', checkAuth, async (req, res) => {
+  console.log("Requisição recebida:", req.body);
   try {
-    const { username, email, password, phone, cep, birthDate, gender } = req.body;
+    const { username, email, password, phone, cep, birthDate, addressNumber, referencePoint, gender } = req.body;
 
     // Verificar se o usuário quer atualizar a senha
     let hashedPassword = undefined;
@@ -201,9 +202,11 @@ app.post('/minha-conta', checkAuth, async (req, res) => {
     }
 
     // Atualizar os dados do usuário no banco de dados
-    await collection.findByIdAndUpdate(req.session.userId, {
+    await User.findByIdAndUpdate(req.session.userId, {
       name: username,
       email,
+      addressNumber,
+      referencePoint,
       phone,
       cep,
       birthDate: birthDate ? new Date(birthDate) : undefined,
@@ -217,6 +220,7 @@ app.post('/minha-conta', checkAuth, async (req, res) => {
     res.status(500).send('Erro ao atualizar os dados.');
   }
 });
+
 
 
 

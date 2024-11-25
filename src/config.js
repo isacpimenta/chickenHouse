@@ -13,11 +13,13 @@ const LoginSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    minlength: 6 // Exemplo de comprimento mínimo
   },
   email: {
     type: String,
-    required: false
+    required: false,
+    match: [/^\S+@\S+\.\S+$/, 'Formato de email inválido']
   },
   phone: {
     type: String,
@@ -25,7 +27,8 @@ const LoginSchema = new mongoose.Schema({
   },
   cep: {
     type: String,
-    required: false
+    required: false,
+    match: [/^\d{5}-?\d{3}$/, 'Formato de CEP inválido']
   },
   addressNumber: { 
     type: String,
@@ -44,11 +47,12 @@ const LoginSchema = new mongoose.Schema({
     required: false,
     enum: ["Masculino", "Feminino", "Outro"]
   },
-  isAdmin: { // Campo para identificar se o usuário é admin
+  isAdmin: {
     type: Boolean,
     default: false
   }
 });
+  
 
-const collection = mongoose.model("users", LoginSchema);
-module.exports = collection;
+const User = mongoose.model("users", LoginSchema);
+module.exports = User;
