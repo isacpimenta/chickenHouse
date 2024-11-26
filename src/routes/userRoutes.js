@@ -1,7 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bcrypt = require('bcryptjs');
-const User = require('../config'); // Certifique-se de que esse arquivo está configurado corretamente
+const User = require('../models/User'); // Certifique-se de que esse arquivo está configurado corretamente
 const fs = require('fs');
 const router = express.Router();
 const Pedido = require("../models/Pedido"); // Caminho correto para o modelo

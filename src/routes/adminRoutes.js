@@ -2,7 +2,7 @@
 const express = require('express');
 const { checkAuth, checkAdmin } = require('../middlewares/authMiddleware');
 const Pedido = require('../models/Pedido'); // Importação do modelo Pedido
-const User = require('../config'); // Importação do modelo User
+const User = require('../models/User'); // Importação do modelo User
 const router = express.Router();
 
 console.log("entrou em admin routes")
@@ -17,10 +17,7 @@ router.get('/', (req, res) => {
 
 router.get('/dashboard', async (req, res) => {
   try {
-    const pedidos = await Pedido.find()
-      .sort({ createdAt: -1 })
-      .populate('userId', 'name'); // Popula o campo userId com o campo 'name' do usuário
-
+    const pedidos = await Pedido.find().sort({ createdAt: -1 });
     res.render('admin/adminPedidos', { pedidos });
   } catch (error) {
     console.error('Erro ao buscar pedidos:', error);
