@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meus Pedidos</title>
+  <link rel="stylesheet" href="/output.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.0/css/all.min.css" integrity="sha512-9xKTRVabjVeZmc+GUW8GgSmcREDunMM+Dt/GrzchfN8tkwHizc5RP4Ok/MXFFy5rIjJjzhndFScTceq5e6GvVQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Passion+One:wght@400;700;900&family=Staatliches&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="w-full h-[420px] bg-zinc-900 bg-home bg-cover bg-center">
+        <div class="w-full h-full flex flex-col justify-center items-center pt-10">
+            <img src="../assets/logo.jpg" alt="Logo Casa Dos Frangos" class="w-32 h32 rounded-full shadow-lg hover:scale-110 duration-200">
+        
+            <h1 class="text-4xl mt-4 mb-2 font-bold text-white">CASA DOS FRANGOS</h1>
+        
+            <span class="text-white text-sm">[ Av. Dr. Manoel Teles, 102 - Centro, Duque de Caxias - RJ ] <br> [ Praça do Pacificador, 53 - Centro, Duque de Caxias - RJ ]</BR></span>
+            
+            <div class="bg-green-600 px-4 py-1 rounded-lg mt-5" id="date-span">
+                <span class="text-white font-medium">SEG á DOM - 18hrs as 22hrs</span>
+            </div>
+
+            <nav class="mt-10 flex justify-around w-full bg-black/60 min-h-[60px] items-center">
+                <a href="../home" class="flex items-center rounded"><i class="fa fa-house text-white mr-1"></i><p class="text-white flex justify-center items-center">Home</p></a>
+                <a href="" class="flex items-center rounded"><i class="fa-solid fa-percent text-white mr-1"></i><p class="text-white">Promo</p></a>
+                <a href="../pedidos" class="flex items-center justify-center bg-white px-1 py-1 rounded"><i class=" fa-solid fa-sack-dollar text-black mr-2"></i><p class="text-black flex justify-center items-center">Pedidos</p></a>
+                <a href="../minha-conta" class="flex"><i class="fa-solid fa-user text-white mr-1"></i><p class="text-white">Minha Conta</p></a>
+            </nav>  
+        </div>
+    </header>
+    <main>
+      <% if (message) { %>
+        <p><%= message %></p>
+      <% } else { %>
+        <div class="dish">
+          <h2><%= dish.name %></h2>
+          <p><%= dish.description %></p>
+          <p>Preço: R$ <%= dish.price.toFixed(2) %></p>
+          <img src="<%= dish.image %>" alt="<%= dish.name %>" class="dish-image">
+        </div>
+      <% } %>
+    </main>
+</body>
+</html>

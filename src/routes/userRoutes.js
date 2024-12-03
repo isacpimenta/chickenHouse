@@ -5,6 +5,7 @@ const User = require('../models/User'); // Certifique-se de que esse arquivo est
 const fs = require('fs');
 const router = express.Router();
 const Pedido = require("../models/Pedido"); // Caminho correto para o modelo
+const DishOfTheDay = require("../models/DishOfTheDay");
 const { checkAuth } = require('../middlewares/authMiddleware'); 
 
 console.log('Arquivo userRoutes.js carregado');
@@ -40,6 +41,21 @@ router.get('/pedidos', checkAuth, async (req, res) => {
       console.error('Erro ao buscar pedidos:', error);
       res.status(500).send('Erro ao carregar os pedidos.');
     }
+});
+
+// Rota para exibir o prato do dia
+router.get("/prato-do-dia", async (req, res) => {
+  try {
+    const dish = await DishOfTheDay.findOne().sort({ date: -1 }); // Busca o prato mais recente
+    if (!dish) {
+      return res.render("dishOfTheDay", { dish: null, message: "Nenhum prato do dia encontrado." });
+    }
+
+    res.render("dishOfTheDay", { dish, message: null });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Erro ao buscar o Prato do Dia.");
+  }
 });
 
 // Rota POST para 'minha-conta'

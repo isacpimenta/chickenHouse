@@ -55,7 +55,7 @@
             <td class="border-2 border-black">R$ <%= pedido.totalPrice.toFixed(2) %></td>
             <td class="border-2 border-black"><%= pedido.status %></td>
             <td class="border-2 border-black">
-              <form method="POST" action="/admin/pedidos/<%= pedido._id %>/status">
+              <form onsubmit="atualizarStatus(event, '<%= pedido._id %>', this.status.value)">
                 <select name="status">
                   <option value="Pendente" <%= pedido.status === 'Pendente' ? 'selected' : '' %>>Pendente</option>
                   <option value="Em preparo" <%= pedido.status === 'Em preparo' ? 'selected' : '' %>>Em preparo</option>
@@ -63,11 +63,64 @@
                 </select>
                 <button type="submit">Atualizar</button>
               </form>
-            </td>
+            </td>            
           </tr>
         <% }); %>
       </tbody>
     </table>
   </div>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script>
+    // Supondo que essa função seja chamada ao clicar em um botão ou ao submeter um formulário
+    function atualizarStatus(event, pedidoId, novoStatus) {
+      // Impede a recarga da página
+      event.preventDefault();
+
+      fetch(`/admin/pedidos/${pedidoId}/status`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: novoStatus }),
+      })
+      .then(response => {
+        if (!response.ok) throw new Error("Erro ao atualizar status");
+        return response.json();
+      })
+      .then(data => {
+        // Atualiza o status na interface
+        Toastify({
+            text: "Status atualizado com sucesso!",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "left",
+            stopOnFocus: true,
+            style: {
+                background: "#22c55e",
+            },
+            onClick: function() {}
+        }).showToast();
+      })
+      .catch(error => {
+        console.error(error);
+        Toastify({
+            text: "Erro ao atualizar o status, tente novamente.",
+            duration: 3000,
+            close: true,
+            gravity: "top",
+            position: "left",
+            stopOnFocus: true,
+            style: {
+                background: "#ef4444",
+            },
+            onClick: function() {}
+        }).showToast();
+      });
+    }
+
+  </script>
+  
+  
 </body>
 </html>
