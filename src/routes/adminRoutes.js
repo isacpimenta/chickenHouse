@@ -3,6 +3,8 @@ const { checkAuth, checkAdmin } = require('../middlewares/authMiddleware'); // M
 const Pedido = require('../models/Pedido'); // Modelo Pedido
 const DishOfTheDay = require('../models/DishOfTheDay'); // Modelo DishOfTheDay
 const router = express.Router();
+const multer = require('multer');  // Certifique-se de importar o multer no seu backend
+const path = require('path');
 
 // Log de debug para verificar se está entrando na rota
 console.log("entrou em admin routes");
@@ -57,35 +59,47 @@ router.get("/pratoDia", checkAdmin, async (req, res) => {
   }
 });
 
-// Rota POST para salvar o prato do dia
-router.post('/prato-Dia', async (req, res) => {
-  console.log("Recebendo requisição POST para /prato-Dia");
+// Configuração do armazenamento para multer
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'public/assets/');  // Pasta onde as imagens serão armazenadas
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));  // Nome único para o arquivo
+  }
+});
+
+const upload = multer({ storage: storage });
+
+//Rota POST para salvar o prato do dia
+router.post('/pratoDia', async (req, res) => {
+  console.log("Recebendo requisição POST para /pratoDia");
   const { name, description, price, image } = req.body;
 
   if (!name || !price) {
-      return res.status(400).send("Nome e preço são obrigatórios.");
+    return res.redirect('/admin/pratoDia?toast=error&msg=Nome%20e%20preço%20são%20obrigatórios');
   }
 
   try {
-      // Verificando se já existe um prato do dia
-      let dish = await DishOfTheDay.findOne().sort({ date: -1 });
+    // Verificando se já existe um prato do dia
+    let dish = await DishOfTheDay.findOne().sort({ date: -1 });
 
-      if (dish) {
-          // Atualizar prato
-          dish.name = name;
-          dish.description = description;
-          dish.price = price;
-          dish.image = image;
-          await dish.save();
-          return res.redirect('/pratoDia'); // Redirecionando após salvar
-      }
+    if (dish) {
+      // Atualizar prato
+      dish.name = name;
+      dish.description = description;
+      dish.price = price;
+      dish.image = image;
+      await dish.save();
+      return res.redirect('/admin/pratoDia?toast=success&msg=Prato%20do%20dia%20atualizado%20com%20sucesso');
+    }
 
-      // Criar um novo prato do dia
-      await DishOfTheDay.create({ name, description, price, image });
-      res.redirect('/pratoDia'); // Redirecionando após criar
+    // Criar um novo prato do dia
+    await DishOfTheDay.create({ name, description, price, image });
+    return res.redirect('/admin/pratoDia?toast=success&msg=Prato%20do%20dia%20criado%20com%20sucesso');
   } catch (error) {
-      console.error("Erro ao salvar o prato do dia:", error);
-      res.status(500).send("Erro ao salvar o prato do dia.");
+    console.error("Erro ao salvar o prato do dia:", error);
+    return res.redirect('/admin/pratoDia?toast=error&msg=Erro%20ao%20salvar%20o%20prato%20do%20dia');
   }
 });
 
