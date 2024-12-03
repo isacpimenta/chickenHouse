@@ -1,30 +1,26 @@
 const mongoose = require('mongoose');
 
-// Definir o schema para o Prato do Dia
-const DishOfTheDaySchema = new mongoose.Schema({
+const dishOfTheDaySchema = new mongoose.Schema({
   name: {
     type: String,
-    required: true, // O nome do prato é obrigatório
+    required: true,  // Campos obrigatórios
   },
   description: {
     type: String,
-    required: false, // Descrição opcional do prato
+    required: false, // Pode ser opcional
   },
   price: {
     type: Number,
-    required: true, // Preço obrigatório
+    required: true,  // Campos obrigatórios
   },
-  available: {
-    type: Boolean,
-    default: true, // Indica se o prato está disponível
+  image: {
+    type: String,
+    required: false, // Pode ser opcional
   },
-  createdAt: {
+  date: {
     type: Date,
-    default: Date.now, // Data de criação do prato
+    default: Date.now,
   },
 });
 
-// Criar o modelo com base no schema
-const DishOfTheDay = mongoose.model('DishOfTheDay', DishOfTheDaySchema);
-
-module.exports = DishOfTheDay;
+module.exports = mongoose.model('DishOfTheDay', dishOfTheDaySchema);

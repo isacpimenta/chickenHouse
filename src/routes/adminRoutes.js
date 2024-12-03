@@ -46,7 +46,7 @@ router.post('/pedidos/:id/status', async (req, res) => {
 });
 
 // Rota GET para exibir o prato do dia
-router.get("/admin/pratoDia", checkAdmin, async (req, res) => {
+router.get("/pratoDia", checkAdmin, async (req, res) => {
   console.log('Entrou na rota /admin/pratoDia'); 
   try {
     const dish = await DishOfTheDay.findOne().sort({ date: -1 });
@@ -57,31 +57,37 @@ router.get("/admin/pratoDia", checkAdmin, async (req, res) => {
   }
 });
 
-// Rota POST para criar ou atualizar o prato do dia
-router.post("/admin/pratoDia", async (req, res) => {
+// Rota POST para salvar o prato do dia
+router.post('/prato-Dia', async (req, res) => {
+  console.log("Recebendo requisição POST para /prato-Dia");
   const { name, description, price, image } = req.body;
 
+  if (!name || !price) {
+      return res.status(400).send("Nome e preço são obrigatórios.");
+  }
+
   try {
-    // Verifica se já existe um prato do dia
-    let dish = await DishOfTheDay.findOne().sort({ date: -1 });
+      // Verificando se já existe um prato do dia
+      let dish = await DishOfTheDay.findOne().sort({ date: -1 });
 
-    if (dish) {
-      // Se já existir, atualiza
-      dish.name = name;
-      dish.description = description;
-      dish.price = price;
-      dish.image = image;
-      await dish.save();
-      return res.redirect("/admin/pratoDia"); // Redireciona corretamente para a página de administração do prato
-    }
+      if (dish) {
+          // Atualizar prato
+          dish.name = name;
+          dish.description = description;
+          dish.price = price;
+          dish.image = image;
+          await dish.save();
+          return res.redirect('/pratoDia'); // Redirecionando após salvar
+      }
 
-    // Se não existir, cria um novo prato
-    await DishOfTheDay.create({ name, description, price, image });
-    res.redirect("/admin/pratoDia"); // Redireciona corretamente para a página de administração do prato
+      // Criar um novo prato do dia
+      await DishOfTheDay.create({ name, description, price, image });
+      res.redirect('/pratoDia'); // Redirecionando após criar
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Erro ao salvar o prato do dia.");
+      console.error("Erro ao salvar o prato do dia:", error);
+      res.status(500).send("Erro ao salvar o prato do dia.");
   }
 });
+
 
 module.exports = router;

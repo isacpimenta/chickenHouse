@@ -44,7 +44,7 @@ router.get('/pedidos', checkAuth, async (req, res) => {
 });
 
 // Rota para exibir o prato do dia
-router.get("/prato-do-dia", async (req, res) => {
+router.get("/prato-Dia", async (req, res) => {
   try {
     const dish = await DishOfTheDay.findOne().sort({ date: -1 }); // Busca o prato mais recente
     if (!dish) {
