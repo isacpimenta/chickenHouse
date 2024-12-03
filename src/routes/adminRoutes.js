@@ -59,42 +59,43 @@ router.get("/pratoDia", checkAdmin, async (req, res) => {
   }
 });
 
-// Configuração do armazenamento para multer
+// Configuração do multer para armazenamento
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'public/assets/');  // Pasta onde as imagens serão armazenadas
+    cb(null, './assets/'); // Diretório de destino para as imagens
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname));  // Nome único para o arquivo
+    cb(null, Date.now() + path.extname(file.originalname)); // Nome único para o arquivo
   }
 });
 
 const upload = multer({ storage: storage });
 
-//Rota POST para salvar o prato do dia
-router.post('/pratoDia', async (req, res) => {
+// Rota POST para salvar ou atualizar o prato do dia
+router.post('/pratoDia', upload.single('image'), async (req, res) => {
   console.log("Recebendo requisição POST para /pratoDia");
-  const { name, description, price, image } = req.body;
+
+  const { name, description, price } = req.body;
+  const image = req.file ? `/assets/${req.file.filename}` : null; // Verifique se o arquivo foi recebido
 
   if (!name || !price) {
     return res.redirect('/admin/pratoDia?toast=error&msg=Nome%20e%20preço%20são%20obrigatórios');
   }
 
   try {
-    // Verificando se já existe um prato do dia
     let dish = await DishOfTheDay.findOne().sort({ date: -1 });
 
     if (dish) {
-      // Atualizar prato
       dish.name = name;
       dish.description = description;
       dish.price = price;
-      dish.image = image;
+      if (image) dish.image = image; // Se o arquivo foi recebido, atribua a imagem
       await dish.save();
       return res.redirect('/admin/pratoDia?toast=success&msg=Prato%20do%20dia%20atualizado%20com%20sucesso');
     }
-
-    // Criar um novo prato do dia
+    console.log("Body:", req.body); // Verifique os dados recebidos
+    console.log("File:", req.file); // Verifique os dados do arquivo recebido
+  
     await DishOfTheDay.create({ name, description, price, image });
     return res.redirect('/admin/pratoDia?toast=success&msg=Prato%20do%20dia%20criado%20com%20sucesso');
   } catch (error) {

@@ -88,8 +88,6 @@
       const params = new URLSearchParams(window.location.search);
       const toastType = params.get("toast");
       const toastMsg = params.get("msg");
-      const multer = require('multer');
-      const path = require('path');
 
       if (toastType && toastMsg) {
         Toastify({
