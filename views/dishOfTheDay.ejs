@@ -33,16 +33,30 @@
             </nav>  
         </div>
     </header>
-    <main>
-      <% if (message) { %>
-        <p><%= message %></p>
-      <% } else { %>
-        <div class="dish">
-          <h2><%= dish.name %></h2>
-          <p><%= dish.description %></p>
-          <p>Preço: R$ <%= dish.price.toFixed(2) %></p>
-          <img src="<%= dish.image %>" alt="<%= dish.name %>" class="dish-image">
+    <main class="mt-10">
+      <% if (dish) { %>
+        <div class="flex flex-col items-center justify-center mx-auto max-w-7xl px-2 mb-16">
+          <!-- Exibir o prato do dia, se existir -->
+          <div class="flex gap-2">
+            <img class="w-28 h-28 rounded-md hover:scale-110 hover:-rotate-2 duration-300" src="<%= dish.image %>" alt="Imagem do prato">
+          
+            <div>
+                <p class="font-bold"><%= dish.name %></p>
+                <p class="text-sm"><%= dish.description %></p>
+          
+                <div class="flex items-center gap-2 justify-between mt-3">
+          
+                    <p class="font-bold text-lg">R$<%= dish.price.toFixed(2) %></p>
+          
+                    <button class="bg-gray-900 px-5 rounded add-to-cart-btn flex" data-name="Frango ao Molho Picante" data-price="32.90">
+                        <i class="fa fa-cart-plus text-lg text-white py-1"></i>
+                    </button>
+                </div>
+            </div>
+          </div>
         </div>
+      <% } else { %>
+        <p>Não há prato do dia disponível no momento.</p>
       <% } %>
     </main>
 </body>

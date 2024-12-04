@@ -62,7 +62,7 @@ router.get("/pratoDia", checkAdmin, async (req, res) => {
 // Configuração do multer para armazenamento
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './assets/'); // Diretório de destino para as imagens
+    cb(null, 'public/assets/'); // Diretório de destino para as imagens
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname)); // Nome único para o arquivo
@@ -77,6 +77,10 @@ router.post('/pratoDia', upload.single('image'), async (req, res) => {
 
   const { name, description, price } = req.body;
   const image = req.file ? `/assets/${req.file.filename}` : null; // Verifique se o arquivo foi recebido
+  console.log('Caminho da imagem:', image); // Verifique o caminho gerado
+
+  console.log("Body:", req.body); // Verifique os dados recebidos
+  console.log("File:", req.file); // Verifique os dados do arquivo recebido
 
   if (!name || !price) {
     return res.redirect('/admin/pratoDia?toast=error&msg=Nome%20e%20preço%20são%20obrigatórios');
@@ -93,8 +97,6 @@ router.post('/pratoDia', upload.single('image'), async (req, res) => {
       await dish.save();
       return res.redirect('/admin/pratoDia?toast=success&msg=Prato%20do%20dia%20atualizado%20com%20sucesso');
     }
-    console.log("Body:", req.body); // Verifique os dados recebidos
-    console.log("File:", req.file); // Verifique os dados do arquivo recebido
   
     await DishOfTheDay.create({ name, description, price, image });
     return res.redirect('/admin/pratoDia?toast=success&msg=Prato%20do%20dia%20criado%20com%20sucesso');
@@ -103,6 +105,41 @@ router.post('/pratoDia', upload.single('image'), async (req, res) => {
     return res.redirect('/admin/pratoDia?toast=error&msg=Erro%20ao%20salvar%20o%20prato%20do%20dia');
   }
 });
+
+// Rota POST para excluir o prato do dia
+router.post('/pratoDia/delete', checkAdmin, async (req, res) => {
+  try {
+    const dish = await DishOfTheDay.findOne().sort({ date: -1 });
+
+    if (!dish) {
+      return res.redirect('/admin/pratoDia?toast=error&msg=Não%20há%20prato%20do%20dia%20para%20excluir');
+    }
+
+    // Excluir a imagem do arquivo, caso exista
+    if (dish.image) {
+      const fs = require('fs');
+      const path = require('path');
+      const imagePath = path.join(__dirname, '..', dish.image); // Caminho completo da imagem
+
+      fs.unlink(imagePath, (err) => {
+        if (err) {
+          console.error('Erro ao excluir a imagem:', err);
+        } else {
+          console.log('Imagem excluída com sucesso');
+        }
+      });
+    }
+
+    // Excluir o prato do dia do banco de dados
+    await DishOfTheDay.deleteOne({ _id: dish._id });
+
+    res.redirect('/admin/pratoDia?toast=success&msg=Prato%20do%20dia%20excluído%20com%20sucesso');
+  } catch (error) {
+    console.error("Erro ao excluir o prato do dia:", error);
+    res.redirect('/admin/pratoDia?toast=error&msg=Erro%20ao%20excluir%20o%20prato%20do%20dia');
+  }
+});
+
 
 
 module.exports = router;

@@ -31,17 +31,16 @@
         </nav>  
     </div>
 </header>
-  <div>
+  <div class="mb-10">
     <h2 class="text-2xl md:text-3xl font-bold text-center mt-9 mb-6">
       Prato do dia
     </h2>
 
-
     <% if (dish) { %>
-      <div class="flex flex-col items-center justify-center mx-auto max-w-7xl px-2 mb-16">
+      <div class="flex flex-col items-center justify-center mx-auto max-w-7xl px-2 mb-8">
         <!-- Exibir o prato do dia, se existir -->
         <div class="flex gap-2">
-          <img src="<%= dish.image %>" alt="Imagem do prato">
+          <img class="w-28 h-28 rounded-md hover:scale-110 hover:-rotate-2 duration-300" src="<%= dish.image %>" alt="Imagem do prato">
         
           <div>
               <p class="font-bold"><%= dish.name %></p>
@@ -58,26 +57,25 @@
           </div>
         </div>
       </div>
+
+      <!-- Botão de Excluir -->
+      <form class="w-[100vw] flex items-center justify-center" action="/admin/pratoDia/delete" method="POST" onsubmit="return confirm('Tem certeza que deseja excluir o prato do dia?')">
+        <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded mt-4">Excluir Prato do Dia</button>
+      </form>
     <% } else { %>
-      <p>Não há prato do dia disponível no momento.</p>
+      <p class="text-center">Não há prato do dia disponível no momento.</p>
     <% } %>
 
     <!-- Formulário para criar ou atualizar o prato do dia -->
-    <h3>Atualizar ou Criar o Prato do Dia</h3>
-    <form action="/admin/pratoDia" method="POST">
-      <label for="name">Nome do Prato:</label>
-      <input type="text" name="name" required>
+    <h3 class="text-2xl md:text-3xl font-bold text-center mt-9 mb-6">CONFIGURAR PRATO DO DIA</h3>
+    <form class="w-[100vw] flex flex-col items-center justify-center" action="/admin/pratoDia" method="POST" enctype="multipart/form-data">
+      <input class="w-80 mb-5 border-2 border-black/60 px-1 py-1" placeholder="Nome do Prato" type="text" name="name" required>
+      <input class="w-80 mb-5 border-2 border-black/60 px-1 py-1" placeholder="Preço" type="number" name="price" required>
+      <textarea class="w-80 border-2 border-black/60 px-1 py-1" placeholder="Descrição" name="description"></textarea>
     
-      <label for="price">Preço:</label>
-      <input type="number" name="price" required>
+      <input class="mt-5" type="file" name="image">
     
-      <label for="description">Descrição:</label>
-      <textarea name="description"></textarea>
-    
-      <label for="image">Imagem:</label>
-      <input type="file" name="image">
-    
-      <button type="submit">Salvar</button>
+      <button class="bg-green-500 text-white px-4 py-1 rounded mt-5" type="submit">Salvar</button>
     </form>
     
   </div>

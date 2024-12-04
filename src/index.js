@@ -21,6 +21,8 @@ app.use(express.json());
 
 // Configuração para servir arquivos estáticos
 app.use(express.static(path.join(__dirname, '../public')));
+app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
+
 
 // Configuração do EJS como motor de visualização
 app.set('view engine', 'ejs');
