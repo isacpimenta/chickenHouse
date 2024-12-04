@@ -144,22 +144,22 @@ inputAddress.addEventListener("input", function(event){
 })
 
 checkoutBtn.addEventListener("click", function() {
-    const isOpen = checkRestaurantOpen();
-    if (!isOpen) {
-        Toastify({
-            text: "RESTAURANTE FECHADO",
-            duration: 3000,
-            close: true,
-            gravity: "top",
-            position: "left",
-            stopOnFocus: true,
-            style: {
-                background: "#ef4444",
-            },
-            onClick: function() {}
-        }).showToast();
-        return;
-    }
+    //const isOpen = checkRestaurantOpen();
+    //if (!isOpen) {
+    //    Toastify({
+    //        text: "RESTAURANTE FECHADO",
+    //        duration: 3000,
+    //        close: true,
+    //        gravity: "top",
+    //        position: "left",
+    //        stopOnFocus: true,
+    //        style: {
+    //            background: "#ef4444",
+    //        },
+    //        onClick: function() {}
+    //    }).showToast();
+    //    return;
+    //}
     
     if (cart.length === 0) {
         Toastify({
